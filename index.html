@@ -25,11 +25,12 @@
  --bg:#000;--card:#0e0e0e;--surface:#1b1b1b;--surface-2:#131313;--ink:#f5f5f2;--muted:#8e8e89;--line:#222;--line-strong:#3a3a3a;--dot-off:#2b2b2b;
  --brand:#f5f5f2;--brand-ink:#000;--red:#ff2b30;--danger:#ff4a4f;--danger-soft:#2a1213;--soft:#1b1b1b
 }}
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button,summary,label,.plan-row,.bottom-nav{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 body{margin:0;min-height:100dvh;background:var(--bg)}
 button,input,textarea,select{font:inherit}button,a,input,summary{touch-action:manipulation}
-button{cursor:pointer;border:0;color:inherit;background:none;min-height:44px;padding:10px 15px;border-radius:999px;transition:background-color .15s,transform .12s,color .15s}
-button:active{transform:scale(.96)}button:disabled{opacity:.35;cursor:default;transform:none}
+button{cursor:pointer;border:0;color:inherit;background:none;min-height:44px;padding:10px 15px;border-radius:999px;transition:transform .12s ease}
+button:active,summary:active{transform:scale(.97)}button:disabled{opacity:.35;cursor:default;transform:none}
 a{color:inherit;text-underline-offset:4px}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px}
 h1,h2,h3,p{margin:0}h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
@@ -76,12 +77,12 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 /* 进度：一排点阵格，每个动作一格，完成变白/黑，全部完成后 TOP 变红 */
 .progress-block{margin:20px 0 0}
 .route{display:flex;align-items:center;gap:6px}
-.route-hold{flex:1;height:14px;border-radius:999px;background:radial-gradient(circle,var(--dot-off) 2.2px,transparent 2.6px) 0 50%/9px 14px repeat-x;transition:background .25s}
+.route-hold{flex:1;height:14px;border-radius:999px;background:radial-gradient(circle,var(--dot-off) 2.2px,transparent 2.6px) 0 50%/9px 14px repeat-x}
 .route-hold.done{background:radial-gradient(circle,var(--ink) 2.8px,transparent 3.2px) 0 50%/9px 14px repeat-x}
 .route-hold.paused{opacity:.4}
 .route-link{display:none}
 .route-top{flex-shrink:0;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;color:var(--muted);border:1px solid var(--line-strong)}
-.route-top.done{color:#fff;background:var(--red);border-color:var(--red);animation:pop .45s ease}
+.route-top.done{color:#fff;background:var(--red);border-color:var(--red)}.route-top.pop{animation:pop .45s ease}
 .progress-caption{display:block;font-size:12px;color:var(--muted);margin-top:10px}
 .progress-caption.done{color:var(--red);font-weight:600}
 @keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
@@ -141,7 +142,7 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .set-btn small{font-family:var(--mono);font-size:9px;line-height:1.2}
 .set-btn.checked{background:var(--red);color:#fff;box-shadow:none}
 .set-btn.checked small{color:#ffffffcc}
-.set-btn.checked>span{animation:pop .3s ease}
+.set-btn.pop>span{animation:pop .3s ease}
 
 /* 操作 */
 .card-actions{display:flex;flex-direction:column;gap:8px;margin:0 0 6px}
@@ -399,7 +400,7 @@ const storageKey=demo?'climb-daily-demo-v1':'climb-daily-v1';
 let storageOK=true,state={version:1,logs:{}};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null');if(saved?.version===1&&saved.logs)state=saved;}catch{storageOK=false;}
 let selected=demo?addDays(START,1):today(), tab='today',currentExercises=[],dialogEx=null,dialogMode=null,toastTimeout,timerDeadline=0,timerLeft=0,timerPaused=false,lastToday=today();
-let activeExercise=null, planWeek=Math.max(1,Math.min(8,dayPlan(today())?.week||1));
+let activeExercise=null,justSet=null,justTopped=false, planWeek=Math.max(1,Math.min(8,dayPlan(today())?.week||1));
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
 const weekday=date=>weekdays[new Date(date+'T12:00:00Z').getUTCDay()];
@@ -432,7 +433,7 @@ function exerciseHTML(ex,index,p){
  <div class="dose-line"><div class="dose">${dm(ex.sets)}<span>组</span> <em>×</em> ${dm(ex.reps)}<span>${ex.unit}${ex.side?'/侧':''}</span></div><span class="rest-chip">休息 ${rest}</span></div>
  ${ex.adjustment?`<p class="adjustment">${ex.adjustment}</p>`:amountChange(ex,p)?`<p class="increase">${amountChange(ex,p)}</p>`:''}
  <p class="cue">${ex.cue}</p>
- <div class="sets">${Array.from({length:ex.sets},(_,i)=>`<button class="set-btn ${values[i]!=null?'checked':''}" data-set="${i}" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${values[i]!=null}" aria-label="${ex.name}第${i+1}组${values[i]!=null?'已记录，点击撤销':`完成${ex.reps}${ex.unit}${ex.side?'每侧':''}`}"><span>${values[i]!=null?'✓':i+1}</span><small>${values[i]??ex.reps}${ex.unit}${ex.side?'/侧':''}</small></button>`).join('')}</div>
+ <div class="sets">${Array.from({length:ex.sets},(_,i)=>`<button class="set-btn ${values[i]!=null?'checked':''} ${justSet===`${ex.id}:${i}`?'pop':''}" data-set="${i}" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${values[i]!=null}" aria-label="${ex.name}第${i+1}组${values[i]!=null?'已记录，点击撤销':`完成${ex.reps}${ex.unit}${ex.side?'每侧':''}`}"><span>${values[i]!=null?'✓':i+1}</span><small>${values[i]??ex.reps}${ex.unit}${ex.side?'/侧':''}</small></button>`).join('')}</div>
  ${closed?`<details class="actual-record"><summary>${resultNames[log.result]} · 合计${sum}${ex.unit}${ex.side?'/侧':''}</summary><p>实际：${values.map(v=>v??0).join(' / ')} ${ex.unit}${ex.side?'/侧':''}${log.stopped?' · 因不适停止':''}${log.note?`<br>${escape(log.note)}`:''}</p></details>`:''}
  <div class="card-actions"><button class="complete" data-action="done" data-id="${ex.id}" ${disabled?'disabled':''}>${closed?'改为按计划完成':'✓ 全部完成'}</button><div class="adjust-row"><button data-action="more" data-id="${ex.id}" ${disabled?'disabled':''}>多做了</button><button data-action="less" data-id="${ex.id}" ${disabled?'disabled':''}>少做了</button><button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适，停止</button></div></div>
  <details class="instructions" data-detail="${ex.id}"><summary>怎么做</summary><p class="setup">${ex.setup}</p><ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${ex.demo?`<div class="demo-stage" data-demo="${ex.demo}"><svg viewBox="0 0 300 155" role="img" aria-label="${ex.name}动作示意，不替代现场指导"></svg><div class="demo-control"><button type="button" data-play="${ex.demo}" aria-pressed="false">播放示意</button></div></div>`:''}<a class="video-link" target="_blank" rel="noopener noreferrer" href="https://search.bilibili.com/all?keyword=${encodeURIComponent(ex.query)}">B站视频搜索 ↗</a></details>
@@ -465,8 +466,8 @@ function renderHistory(){
 }
 function render(){stopDemos();app.innerHTML=tab==='today'?renderToday():tab==='plan'?renderPlan():renderHistory();document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.setAttribute('aria-current',b.dataset.tab===tab?'page':'false');});$('#save-state').textContent=!storageOK?'保存不可用':demo?'体验模式 · 独立记录':'记录保存在本机';drawAllDemos();}
 function goto(date){selected=date;activeExercise=null;tab='today';render();window.scrollTo({top:0,behavior:'instant'});}
-function progressHTML(count,total){const items=state.logs[selected]?.items||{},all=count===total;return `<div class="route" role="progressbar" aria-label="主训练记录进度" aria-valuenow="${count}" aria-valuemin="0" aria-valuemax="${total}">${currentExercises.map((e,i)=>`${i?`<span class="route-link ${items[e.id]?.closed&&items[currentExercises[i-1].id]?.closed?'done':''}"></span>`:''}<span class="route-hold ${items[e.id]?.closed?'done':e.paused?'paused':''}"></span>`).join('')}<span class="route-link ${all?'done':''}"></span><span class="route-top ${all?'done':''}">TOP</span></div>${all?'<span class="progress-caption done">完攀！</span>':''}`;}
-function rerenderCard(id){const ex=currentExercises.find(e=>e.id===id),old=app.querySelector(`[data-ex="${id}"]`);if(!ex||!old)return;stopDemos();const y=window.scrollY,open=old.querySelector('.instructions')?.open;old.outerHTML=exerciseHTML(ex,currentExercises.indexOf(ex),currentPlan());if(open)app.querySelector(`[data-ex="${id}"] .instructions`).open=true;drawAllDemos();const count=currentExercises.filter(e=>state.logs[selected]?.items?.[e.id]?.closed).length;const block=$('.progress-block');if(block)block.innerHTML=progressHTML(count,currentExercises.length);const heroCount=$('.hero-count');if(heroCount)heroCount.innerHTML=countHTML(count,currentExercises.length);window.scrollTo(0,y);}
+function progressHTML(count,total){const items=state.logs[selected]?.items||{},all=count===total;return `<div class="route" role="progressbar" aria-label="主训练记录进度" aria-valuenow="${count}" aria-valuemin="0" aria-valuemax="${total}">${currentExercises.map((e,i)=>`${i?`<span class="route-link ${items[e.id]?.closed&&items[currentExercises[i-1].id]?.closed?'done':''}"></span>`:''}<span class="route-hold ${items[e.id]?.closed?'done':e.paused?'paused':''}"></span>`).join('')}<span class="route-link ${all?'done':''}"></span><span class="route-top ${all?'done':''} ${all&&justTopped?'pop':''}">TOP</span></div>${all?'<span class="progress-caption done">完攀！</span>':''}`;}
+function rerenderCard(id){const ex=currentExercises.find(e=>e.id===id),old=app.querySelector(`[data-ex="${id}"]`);if(!ex||!old)return;stopDemos();const y=window.scrollY,open=old.querySelector('.instructions')?.open;old.outerHTML=exerciseHTML(ex,currentExercises.indexOf(ex),currentPlan());if(open)app.querySelector(`[data-ex="${id}"] .instructions`).open=true;drawAllDemos();const count=currentExercises.filter(e=>state.logs[selected]?.items?.[e.id]?.closed).length;const block=$('.progress-block');if(block){justTopped=count===currentExercises.length&&!block.querySelector('.route-top.done');block.innerHTML=progressHTML(count,currentExercises.length);justTopped=false;}const heroCount=$('.hero-count');if(heroCount)heroCount.innerHTML=countHTML(count,currentExercises.length);window.scrollTo(0,y);}
 let timerTotal=0,timerDoneAt=0,lastClock='';
 function startTimer(ex){timerTotal=timerLeft=ex.rest*1000;timerDeadline=Date.now()+timerLeft;timerPaused=false;timerDoneAt=0;const el=$('#timer');el.className='timer';$('#timer-label').textContent=`${ex.name} · 组间休息`;el.hidden=false;$('#timer-pause').textContent='暂停';updateTimer();}
 function updateTimer(){const el=$('#timer');if(el.hidden)return;if(!timerPaused)timerLeft=Math.max(0,timerDeadline-Date.now());const seconds=Math.ceil(timerLeft/1000),ratio=timerTotal?timerLeft/timerTotal:0;const clock=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;if(clock!==lastClock){lastClock=clock;$('#timer-clock').innerHTML=dm(clock);}const ring=$('#timer-ring');if(ring)ring.setAttribute('stroke-dashoffset',String(113.1*(1-ratio)));el.style?.setProperty?.('--left-ratio',String(ratio));if(seconds===0){if(!timerDoneAt){timerDoneAt=Date.now();el.classList.add('finished');navigator.vibrate?.(200);}$('#timer-label').textContent='休息结束，上墙！';$('#timer-pause').hidden=true;if(Date.now()-timerDoneAt>15000)el.hidden=true;}else $('#timer-pause').hidden=false;}
@@ -489,7 +490,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.day){goto(addDays(selected,Number(t.dataset.day)));return;}
  if(t.hasAttribute('data-demo-link')){const url=new URL(location.href);url.searchParams.set('demo','1');location.href=url.href;return;}
  if(t.hasAttribute('data-set')){
-  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;const log=setLog(ex),i=Number(t.dataset.set),was=log.values[i]!=null;log.values[i]=was?null:ex.reps;log.closed=Array.from({length:ex.sets},(_,n)=>log.values[n]!=null).every(Boolean);log.result=log.closed?resultFor(log.values,ex):null;log.stopped=false;save();rerenderCard(ex.id);if(!was&&!log.closed)startTimer(ex);return;
+  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;const log=setLog(ex),i=Number(t.dataset.set),was=log.values[i]!=null;log.values[i]=was?null:ex.reps;log.closed=Array.from({length:ex.sets},(_,n)=>log.values[n]!=null).every(Boolean);log.result=log.closed?resultFor(log.values,ex):null;log.stopped=false;save();justSet=was?null:`${ex.id}:${i}`;rerenderCard(ex.id);justSet=null;if(!was&&!log.closed)startTimer(ex);return;
  }
  if(t.dataset.action){
   if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;
