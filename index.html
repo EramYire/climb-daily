@@ -121,7 +121,8 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .ex-title{flex:1;min-width:0}
 .exercise-name{display:block;font-size:15px;font-weight:600;line-height:1.45;overflow-wrap:anywhere}
 .completed:not(.is-open) .exercise-name{color:var(--muted)}
-.ex-title small{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:2px}
+.ex-title small{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:4px}
+.is-open .ex-target{display:none}
 .tag{font-size:11px;color:var(--ink);border:1px solid var(--line-strong);border-radius:999px;padding:0 6px;line-height:1.6}
 .status{font-size:12px;white-space:nowrap;color:var(--muted)}
 .status.done,.status.more{color:var(--red);font-weight:600}.status.less{color:var(--ink);font-weight:600}
@@ -130,7 +131,9 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .dose{display:flex;align-items:flex-end;gap:2px;font-size:44px;line-height:1;white-space:nowrap}
 .dose>span:not(.dm){font-size:13px;color:var(--muted);margin:0 0 3px 4px}
 .dose em{font-size:20px;font-style:normal;color:var(--muted);margin:0 8px 6px}
-.rest-chip{font-size:12px;color:var(--muted);white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.rest-edit{display:inline-flex;align-items:center;border:1px solid var(--line-strong);border-radius:999px;flex-shrink:0}
+.rest-chip{font-size:12px;color:var(--ink);white-space:nowrap;padding:0 2px;font-variant-numeric:tabular-nums}
+.rest-step{width:34px;height:34px;min-height:0;padding:0;font-size:16px;color:var(--muted)}
 .cue{font-size:14px;line-height:1.7;color:var(--muted);margin:6px 0 16px}
 .adjustment{font-size:13px;line-height:1.7;padding:9px 12px;border-radius:12px;border:1px dashed var(--line-strong);margin:8px 0}
 .increase{font-family:var(--mono);font-size:11px;color:var(--red);margin:6px 0}
@@ -138,19 +141,19 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 /* 每组：圆形按键，完成后变红 */
 .sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:10px;margin:0 0 16px}
 .set-btn{aspect-ratio:1;max-width:64px;width:100%;justify-self:center;min-height:0;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;border-radius:50%;background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
-.set-btn>span{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2}
-.set-btn small{font-family:var(--mono);font-size:9px;line-height:1.2}
+.set-btn{font-family:var(--mono);font-size:18px;font-weight:600}
 .set-btn.checked{background:var(--red);color:#fff;box-shadow:none}
-.set-btn.checked small{color:#ffffffcc}
-.set-btn.pop>span{animation:pop .3s ease}
+.set-btn.pop{animation:pop .3s ease}
 
 /* 操作 */
 .card-actions{display:flex;flex-direction:column;gap:8px;margin:0 0 6px}
 .card-actions .complete{width:100%;min-height:52px;font-size:15px;font-weight:600;color:var(--brand-ink);background:var(--brand)}
-.adjust-row{display:flex;gap:8px}
-.adjust-row button{flex:1;min-width:0;min-height:42px;padding:8px 6px;font-size:13px;box-shadow:inset 0 0 0 1px var(--line-strong)}
-.adjust-row .stop{color:var(--danger);box-shadow:inset 0 0 0 1px var(--danger);font-weight:600}
-.actual-record{font-size:13px;line-height:1.7;border:1px dashed var(--line-strong);border-radius:14px;margin:0 0 12px;padding:2px 12px}
+.card-actions .complete:disabled{opacity:1;background:transparent;color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+.interval-note{font-family:var(--mono);font-size:12px;color:var(--ink);margin:0 0 4px}
+.adjustment .text-button{font-size:13px;padding:0 4px;min-height:32px;color:var(--ink)}
+.adjust-row{display:flex;justify-content:center;gap:4px}
+.adjust-row button{min-height:40px;padding:6px 14px;font-size:13px;color:var(--muted)}
+.actual-record{font-size:12px;line-height:1.7;color:var(--muted);margin:-6px 0 12px;font-family:var(--mono);overflow-wrap:anywhere}
 .actual-record>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;cursor:pointer;min-height:40px;font-weight:600}
 .actual-record summary span{font-size:12px;color:var(--muted);font-weight:400}
 .actual-record p{padding:0 0 8px;color:var(--muted);overflow-wrap:anywhere}
@@ -219,14 +222,20 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .week-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .week-heading h2{font-size:17px}.week-heading>span{font-size:11px;color:var(--muted)}
 .plan-list{display:flex;flex-direction:column;gap:8px}
-.plan-row{position:relative;width:100%;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;text-align:left;padding:12px 16px;min-height:72px;background:var(--card);border-radius:18px;box-shadow:0 0 0 1px var(--line)}
-.plan-row:active{transform:scale(.98)}
+.plan-row{position:relative;display:flex;align-items:stretch;background:var(--card);border-radius:18px;box-shadow:0 0 0 1px var(--line);transition:transform .18s ease;touch-action:pan-y}
+.plan-open{flex:1;min-width:0;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;text-align:left;padding:12px 4px 12px 16px;min-height:72px;border-radius:18px 0 0 18px}
+.plan-open:active{transform:none}
+.drag-handle{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:grab;touch-action:none}
+.plan-row.dragging{z-index:3;transition:none;box-shadow:0 0 0 1.5px var(--ink),0 10px 30px #00000026}
+.plan-row.locked .drag-handle{cursor:default}
+.reset-order{margin-top:10px}
 .plan-row .cal-date{font-size:11px;color:var(--muted);line-height:1.5}.plan-row .cal-date b{display:block;font-size:15px;color:var(--ink);font-weight:600}
 .plan-row .row-title{display:block;font-size:15px;font-weight:600}
 .plan-row small{font-size:12px;margin-top:2px}
 .plan-row.selected{box-shadow:0 0 0 1.5px var(--ink)}
 .plan-row.selected .cal-date:after{content:'TODAY';display:block;font-size:9px;font-weight:700;color:var(--red)}
-.rest-row{min-height:52px;background:transparent;box-shadow:none;border:1px dashed var(--line-strong)}
+.rest-row{background:transparent;box-shadow:none;border:1px dashed var(--line-strong)}
+.rest-row .plan-open{min-height:52px}
 .rest-row .row-title{font-weight:500;color:var(--muted)}
 .rest-row.selected{border:1.5px solid var(--ink);box-shadow:none}
 .row-status{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
@@ -257,19 +266,23 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .bottom-nav button svg{width:21px;height:21px}
 .bottom-nav button.active{color:var(--brand-ink);background:var(--brand);font-weight:600}
 
-/* 休息计时：点阵时钟 */
-.timer{position:fixed;z-index:12;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 72px);left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:420px;display:flex;align-items:center;gap:12px;padding:12px 10px 12px 18px;border-radius:26px;background:#000;color:#fff;box-shadow:0 0 0 1px #2a2a2a,0 10px 36px #0000004d;overflow:hidden}
+/* 计时条：倒数 / 动作 / 休息 */
+.timer{position:fixed;z-index:12;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 72px);left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:420px;display:flex;align-items:center;gap:6px;padding:12px 8px 16px 18px;border-radius:26px;background:#000;color:#fff;box-shadow:0 0 0 1px #2a2a2a,0 10px 36px #0000004d;overflow:hidden}
 .timer:before{content:'';position:absolute;left:18px;right:18px;bottom:7px;height:4px;background:radial-gradient(circle,#333 1.2px,transparent 1.5px) 0 50%/7px 4px repeat-x}
-.timer:after{content:'';position:absolute;left:18px;bottom:7px;height:4px;width:calc((100% - 36px) * var(--left-ratio,1));background:radial-gradient(circle,#fff 1.4px,transparent 1.7px) 0 50%/7px 4px repeat-x;transition:width .25s linear}
-.timer-ring{display:none}
-.timer>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
-.timer small{color:#ffffffa6;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer:after{content:'';position:absolute;left:18px;bottom:7px;height:4px;width:calc((100% - 36px) * var(--left-ratio,1));background:radial-gradient(circle,#fff 1.4px,transparent 1.7px) 0 50%/7px 4px repeat-x}
+.timer-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.timer small{color:#ffffffa6;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .timer strong{font-size:30px;line-height:1;font-weight:400}
-.timer button{flex-shrink:0;min-width:58px;min-height:44px;padding:8px 14px;white-space:nowrap;color:#fff;box-shadow:inset 0 0 0 1px #444;font-size:14px;font-weight:600}
-#timer-close{min-width:44px;padding:8px;font-size:20px}
+.timer[data-kind="work"] strong,.timer[data-kind="count"] strong{font-size:40px}
+.timer[data-kind="work"]{box-shadow:0 0 0 2px var(--red),0 10px 36px #0000004d}
+.timer[data-kind="work"]:after{background:radial-gradient(circle,var(--red) 1.4px,transparent 1.7px) 0 50%/7px 4px repeat-x}
+.timer[data-kind="work"] small{color:#fff;font-weight:600}
+.timer button{flex-shrink:0;min-width:44px;min-height:44px;padding:6px 10px;white-space:nowrap;color:#fff;box-shadow:inset 0 0 0 1px #3a3a3a;font-size:13px;font-weight:600}
+.timer-adjust{display:flex;gap:4px}.timer-adjust button{min-width:46px;font-family:var(--mono);font-size:12px}
+#timer-mute[aria-pressed="true"]{color:#ffffff80}
+#timer-close{padding:6px;font-size:20px;box-shadow:none}
 .timer.finished{box-shadow:0 0 0 1.5px var(--red),0 10px 36px #0000004d}
-.timer.finished strong{color:var(--red)}
-.timer.finished small{color:#fff}
+.timer.finished strong{color:var(--red)}.timer.finished small{color:#fff}
 
 /* 对话框与提示 */
 dialog{width:calc(100% - 24px);max-width:460px;max-height:85dvh;overflow:auto;border:0;border-radius:26px;padding:20px;background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line),0 20px 80px #00000059}
@@ -299,8 +312,8 @@ dialog::backdrop{background:#0009;backdrop-filter:blur(4px)}
 <body>
   <span id="save-state" hidden></span>
   <main id="app" aria-label="每日训练"></main>
-  <nav class="bottom-nav" aria-label="主导航"><button data-tab="today" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4c3-1 7 0 9 2s3 5 1 8-6 6-9 6-4-3-4-6 0-9 3-10z"/><circle cx="11" cy="11" r="1.6" fill="currentColor"/></svg>今日</button><button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21 10 9l4 6 2-3 4 9z"/><path d="M10 9V3l4 2-4 2"/></svg>8周计划</button><button data-tab="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>记录</button></nav>
-  <div id="timer" class="timer" hidden aria-label="组间休息"><svg class="timer-ring" viewBox="0 0 44 44" aria-hidden="true"><circle class="track" cx="22" cy="22" r="18"/><circle class="fill" id="timer-ring" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="0"/></svg><div><small id="timer-label">组间休息</small><strong id="timer-clock">02:00</strong></div><button id="timer-pause" type="button">暂停</button><button id="timer-close" type="button" aria-label="关闭休息计时">×</button></div>
+  <nav class="bottom-nav" aria-label="主导航"><button data-tab="today" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4c3-1 7 0 9 2s3 5 1 8-6 6-9 6-4-3-4-6 0-9 3-10z"/><circle cx="11" cy="11" r="1.6" fill="currentColor"/></svg>今日</button><button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21 10 9l4 6 2-3 4 9z"/><path d="M10 9V3l4 2-4 2"/></svg>计划总览</button><button data-tab="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>记录</button></nav>
+  <div id="timer" class="timer" hidden role="timer" aria-live="polite"><div class="timer-main"><small id="timer-label">组间休息</small><strong id="timer-clock">00:00</strong></div><div class="timer-adjust" id="timer-adjust"><button type="button" data-rest-adjust="-15" aria-label="休息减少15秒">−15</button><button type="button" data-rest-adjust="15" aria-label="休息增加15秒">+15</button></div><button id="timer-mute" type="button" aria-pressed="false">声音</button><button id="timer-pause" type="button">暂停</button><button id="timer-close" type="button" aria-label="关闭计时">×</button></div>
   <dialog id="record-dialog" aria-labelledby="dialog-title"><form id="record-form" novalidate><div class="dialog-top"><h2 id="dialog-title">记录实际完成</h2><button type="button" data-close aria-label="关闭">×</button></div><p id="dialog-target"></p><div id="dialog-sets"></div><button type="button" id="add-set" class="text-button">＋ 加一组</button><label class="field">备注（可不填）<textarea id="record-note" rows="2" maxlength="500" placeholder="例如：最后一组加了脚辅助"></textarea></label><p id="dialog-error" class="error" role="alert"></p><button class="primary full" type="submit">保存实际记录</button><small class="muted">空着的组按 0 记录。</small></form></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <noscript>请启用 JavaScript，才能显示每日训练并记录完成情况。</noscript>
@@ -313,7 +326,7 @@ const addDays=(s,n)=>new Date((dayNumber(s)+n)*DAY).toISOString().slice(0,10);
 function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 const weekNames=['建立节奏','稳定增加','巩固动作','减量恢复','重建训练量','继续积累','整合到攀岩','减量与回顾'];
 const profiles={
- hang:[ [5,7],[5,8],[5,9],[3,7],[5,8],[5,9],[5,10],[3,7] ],
+ hang:[ [3,4],[3,5],[3,6],[2,4],[4,5],[4,6],[4,6],[2,4] ],
  dip:[ [3,4],[3,5],[3,6],[2,4],[4,4],[4,5],[4,6],[2,4] ],
  pull:[ [3,3],[3,3],[3,4],[2,3],[3,4],[3,4],[3,4],[2,3] ],
  deadbug:[ [3,6],[3,7],[3,8],[2,6],[3,8],[3,9],[3,10],[2,6] ],
@@ -328,12 +341,12 @@ const profiles={
  sloper:[ [2,1],[2,1],[3,1],[2,1],[2,1],[3,1],[3,1],[2,1] ]
 };
 const exercises={
- hang:{name:'25 mm 双手悬挂',unit:'秒',rest:150,tag:'指力',setup:'四指开放握 · 双手 · 可脚辅助',cue:'手腕自然，抓握稳定；每组之间完全放松。',steps:['双手四指放在25 mm边沿，采用自然开放式握法，不用两指。','肩胛自然参与，双脚逐步减少支撑，身体不摆动；做不到规定秒数就保留脚部辅助。','计满本组秒数后先把脚放稳，再松手。不要把悬挂做成7秒挂、3秒休的循环。'],query:'攀岩 指力板 双手 开放握 脚辅助 悬挂 教程',demo:'hang'},
+ hang:{name:'25 mm 双手悬挂',unit:'次',rest:120,tag:'指力',interval:{work:7,off:3},setup:'7/3 间歇悬挂 · 四指开放握 · 可脚辅助',cue:'每次都挂稳，松手时脚先踩稳；组间完全放松。',steps:['双手四指放在25 mm边沿，自然开放式握法，不用两指。','点一组开始：倒数3秒后挂7秒、松手3秒，跟着提示音重复到本组次数。','保留足够的脚部辅助，最后一次仍能控制。手指疼痛或握不住就停。'],query:'攀岩 指力板 7/3 间歇悬挂 repeaters 脚辅助',demo:'hang'},
  dip:{name:'脚辅助双杠臂屈伸',unit:'次',rest:120,tag:'推力',setup:'双脚分担重量 · 下降约3秒',cue:'用脚帮到能稳稳下降、顺畅推起，不追求深度。',steps:['使用脚能踩稳的双杠或稳定辅助台，双手撑稳，双脚分担足够重量。','慢慢屈肘下降约3秒，只到肩膀舒适且能控制的位置，不强行下探。','推起时让双脚一起帮忙，直到手肘自然伸直。8周内保持相似辅助方式，便于比较。'],query:'双杠臂屈伸 脚辅助 初学者 动作 教学',demo:'dip'},
  pull:{name:'严格引体向上',unit:'次',rest:120,tag:'拉力',setup:'不摆荡 · 不蹬腿 · 保留余力',cue:'拉起和下放都可控，最后一组也不硬拉。',steps:['双手舒服握距抓杠，肩膀无痛，身体停止摆动后开始。','肘部向下拉，颈部保持自然，慢慢放回。','若做不到本组次数，使用弹力带辅助并记录；动作失控就结束该组。'],query:'严格 引体向上 标准动作 教学',demo:'pull'},
  deadbug:{name:'死虫',unit:'次',side:true,rest:45,tag:'核心',setup:'每侧各做 · 对侧手脚伸远',cue:'腰背轻贴地面，慢慢伸，不憋气。',steps:['仰卧，髋和膝约90度，双手举向天花板，腰背轻贴地。','呼气时缓慢伸远一侧手和对侧腿，然后返回；换另一边。','每侧各完成所列次数。腰背拱起时缩短手脚伸出的距离。'],query:'死虫 Dead Bug 标准动作 腰背 教学',demo:'deadbug'},
  external:{name:'弹力带肩外旋',unit:'次',side:true,rest:45,tag:'肩部',setup:'轻阻力 · 肘屈90度贴身',cue:'只转前臂，不转身体，不耸肩。',steps:['侧对牢固固定点，使用轻阻力弹力带，手肘屈90度贴身体。','前臂从腹前缓慢向外打开，手肘位置保持不动。','缓慢回位，每侧各完成所列次数。轻阻力优先，不能用带上的公斤数当统一标准。'],query:'弹力带 肩外旋 肘贴身体 康复 教学',demo:'external'},
- sideplank:{name:'屈膝侧桥',unit:'秒',side:true,rest:45,tag:'核心',setup:'左右各做 · 前臂与膝支撑',cue:'肩、髋、膝大致成线，髋部不下沉。',steps:['侧卧，肘部在肩膀下方，膝盖弯曲，前臂和下侧膝支撑身体。','抬髋，让肩、髋、膝大致成一直线，保持自然呼吸。','每侧分别保持所列秒数。肩膀不舒服就停止该动作。'],query:'屈膝 侧桥 侧平板支撑 教学',demo:'sideplank'},
+ sideplank:{name:'屈膝侧桥',unit:'秒',side:true,rest:45,timed:{switch:5},tag:'核心',setup:'左右各做 · 前臂与膝支撑',cue:'肩、髋、膝大致成线，髋部不下沉。',steps:['侧卧，肘部在肩膀下方，膝盖弯曲，前臂和下侧膝支撑身体。','抬髋，让肩、髋、膝大致成一直线，保持自然呼吸。','每侧分别保持所列秒数。肩膀不舒服就停止该动作。'],query:'屈膝 侧桥 侧平板支撑 教学',demo:'sideplank'},
  facepull:{name:'轻弹力带面拉',unit:'次',rest:45,tag:'肩部',setup:'固定点与脸同高 · 轻阻力',cue:'拉向眉毛两侧，身体不后仰，肩膀不耸起。',steps:['检查固定点和带子，把带子固定在脸部高度。','双手拉向鼻子或眉毛两侧，肘部打开，动作保持轻松。','短暂停住后缓慢还原，身体不后仰借力。'],query:'弹力带 面拉 正确动作 教学',demo:'facepull'},
  birddog:{name:'鸟狗式',unit:'次',side:true,rest:45,tag:'核心',setup:'每侧各做 · 伸远后停1秒',cue:'手脚伸远，腰不塌，骨盆不转。',steps:['四点跪姿，双手在肩下方，双膝在髋下方。','缓慢伸出对侧手和腿，停1秒后回位，再换边。','每侧完成所列次数。伸出的高度不重要，躯干稳定更重要。'],query:'鸟狗式 Bird Dog 标准动作 教学',demo:'birddog'},
  footwork:{name:'静音脚与换脚',unit:'条',rest:90,tag:'脚法',setup:'V0–V2熟悉线 · 低高度',cue:'看准再踩，换重心后再挪脚。',steps:['选大手点、好脚点且轻松的熟悉线路，每组完成1条。','落脚尽量安静，先把重量移到支撑脚，再挪另一只脚。','换脚先在低高度的大脚点练，不要求直接在小点上换脚。'],query:'抱石 静音脚 换脚 训练 教程'},
@@ -357,11 +370,14 @@ const warmClimb=[
  ['专项准备','低高度大手点的小幅动态','2次','动作轻松，先熟悉节奏。']
 ];
 const themes={1:['指力与推力','约50–60分钟','家里＋小区双杠/单杠','少量扎实的悬挂，再练可控的推起。'],3:['脚法与动态','约60分钟','攀岩馆','先把脚踩准，再练蹬腿带髋的节奏。'],4:['核心与肩部','约15分钟','家里','轻量练稳身体，给周六保留体力。'],5:['攀岩综合日','约90–120分钟，含休息','攀岩馆','增加工作日攀岩后，周六先缩短到约2小时，以动作质量为先。']};
+let weekOrders={};
+function setWeekOrders(o){weekOrders=o&&typeof o==='object'?o:{};}
+const isPermutation=o=>Array.isArray(o)&&o.length===7&&[...o].sort().join()==='0,1,2,3,4,5,6';
 function dayPlan(date){
  const offset=dayNumber(date)-dayNumber(START);
  if(!Number.isInteger(offset)||offset<0||offset>=56)return null;
- const week=Math.floor(offset/7)+1,dow=offset%7;
- if(!themes[dow])return {date,week,dow,rest:true,title:dow===0?'恢复与准备':dow===2?'休息，让训练沉淀':'攀岩后的恢复',focus:weekNames[week-1],description:'今天没有力量或悬挂任务。正常活动，给手指、前臂和肩膀恢复时间。'};
+ const week=Math.floor(offset/7)+1,day=offset%7,custom=isPermutation(weekOrders[week]),dow=custom?weekOrders[week][day]:day;
+ if(!themes[dow])return {date,week,dow,day,rest:true,title:custom?'休息日':dow===0?'恢复与准备':dow===2?'休息，让训练沉淀':'攀岩后的恢复',focus:weekNames[week-1],description:'今天没有力量或悬挂任务。正常活动，给手指、前臂和肩膀恢复时间。'};
  const [title,duration,place,description]=themes[dow];
  const ids=dow===1?['hang','dip','pull','deadbug','external']:dow===3?['footwork','dynamic','easy']:dow===4?['sideplank','facepull','birddog']:['dynamic','project','sloper','footwork'];
  const main=ids.map(id=>{let [sets,reps]=profiles[id][week-1];if(dow===5&&id==='dynamic')sets=[4,4,5,3,4,5,5,3][week-1];if(dow===5&&id==='footwork')sets=[4,4,5,3,4,5,5,3][week-1];return {id,...exercises[id],sets,reps};});
@@ -369,14 +385,14 @@ function dayPlan(date){
  ['身体活动','原地走动、肩绕环','2分钟＋肩绕环10次','轻松活动，不追求出汗。'],
  ['轻量准备','墙面肩胛俯卧撑','1组×8次','手肘伸直，轻轻推开墙面再回位。']
  ]:warmClimb;
- return {date,week,dow,title,duration,place,description,focus:weekNames[week-1],main,warmup,rest:false,deload:week===4||week===8};
+ return {date,week,dow,day,title,duration,place,description,focus:weekNames[week-1],main,warmup,rest:false,deload:week===4||week===8};
 }
 function doseFor(ex,date,logs){
  const earlier=Object.entries(logs).filter(([d])=>d<date).sort(([a],[b])=>b.localeCompare(a));
  const history=earlier.map(([d,v])=>({date:d,rec:v.items?.[ex.id]})).filter(v=>v.rec?.closed);
  let last=history[0];
  if(!last)return ex;
- if(last.rec.stopped)return {...ex,paused:true,adjustment:`${last.date.slice(5)}因不适停止，今天暂停此动作。反复不适请先评估。`};
+ if(last.rec.stopped)return {...ex,paused:true,pausedFrom:last.date,adjustment:`${last.date.slice(5)}因不适停止，今天暂停此动作。反复不适请先评估。`};
  if(dayPlan(last.date)?.deload&&last.rec.result!=='less')last=history.find(v=>!dayPlan(v.date)?.deload)||last;
  if(last.rec.result==='less'&&last.rec.target&&last.rec.target.sets*last.rec.target.reps<ex.sets*ex.reps){
   return {...ex,sets:last.rec.target.sets,reps:last.rec.target.reps,adjustment:'上次少做，今天保持上次目标，暂不加量。'};
@@ -399,7 +415,8 @@ const demo=new URLSearchParams(location.search).get('demo')==='1';
 const storageKey=demo?'climb-daily-demo-v1':'climb-daily-v1';
 let storageOK=true,state={version:1,logs:{}};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null');if(saved?.version===1&&saved.logs)state=saved;}catch{storageOK=false;}
-let selected=demo?addDays(START,1):today(), tab='today',currentExercises=[],dialogEx=null,dialogMode=null,toastTimeout,timerDeadline=0,timerLeft=0,timerPaused=false,lastToday=today();
+state.weekOrders??={};state.rest??={};setWeekOrders(state.weekOrders);
+let selected=demo?addDays(START,1):today(), tab='today',currentExercises=[],dialogEx=null,toastTimeout,lastToday=today();
 let activeExercise=null,justSet=null,justTopped=false, planWeek=Math.max(1,Math.min(8,dayPlan(today())?.week||1));
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
@@ -411,6 +428,9 @@ const FONT={'0':['01110','10001','10011','10101','11001','10001','01110'],'1':['
  // 点阵小图标
  up:['00100','01110','10101','00100','00100','00100','00100'],stairs:['0000011','0000011','0001100','0001100','0110000','0110000','0000000'],moon:['00111','01100','11000','11000','11000','01100','00111']};
 function dm(str,cls=''){let x=0,dots='';const chars=FONT[str]?[str]:[...String(str)];for(const ch of chars){const g=FONT[ch];if(!g){x+=2;continue;}g.forEach((row,y)=>[...row].forEach((b,i)=>{if(b==='1')dots+=`<circle cx="${x+i+.5}" cy="${y+.5}" r=".42"/>`;}));x+=g[0].length+1;}x=Math.max(1,x-1);return `<span class="dm ${cls}" role="img" aria-label="${escape(FONT[str]&&str.length>1?'':str)}"><svg viewBox="0 0 ${x} 7" width="${(x/7).toFixed(3)}em" height="1em" fill="currentColor" aria-hidden="true">${dots}</svg></span>`;}
+const fmtRest=s=>s>=60?(s%60?`${Math.floor(s/60)}分${s%60}秒`:`${s/60}分钟`):`${s}秒`;
+const hasLog=l=>!!l&&(Object.keys(l.items||{}).length>0||(l.warm||[]).some(Boolean)||!!l.note||l.rpe!=null||l.pain!=null);
+const statusText=(ex,rec)=>ex.paused?'暂停':rec?.closed&&rec.result!=='done'?resultNames[rec.result]:'';
 const countHTML=(n,total)=>`${dm(n,n===total&&total?'red':'')}<small>/ ${total}</small>`;
 const holdsHTML=(p,logs)=>p.main.map(e=>`<span class="mini-hold ${logs?.items?.[e.id]?.closed?'done':''}"></span>`).join('');
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));$('#save-state').textContent=demo?'体验记录 · 不影响正式训练':'已保存在本机';storageOK=true;}catch{storageOK=false;$('#save-state').textContent='保存失败，请备份';toast('本机存储不可用，请先备份记录。');}}
@@ -421,21 +441,23 @@ function future(){return !demo&&selected>today();}
 function mayLog(){if(future()){toast('这是未来计划，到了当天即可记录。');return false;}return true;}
 function currentPlan(){return dayPlan(selected);}
 function amountChange(ex,p){if(p.week===1)return '';const prev=dayPlan(addDays(selected,-7))?.main?.find(e=>e.id===ex.id);if(!prev)return '';const d=ex.sets*ex.reps-prev.sets*prev.reps;if(d===0)return '';return d>0?`本周：${targetText(prev)} → ${targetText(ex)}`:`减量安排：${targetText(ex)}`;}
-function headerDate(){const p=dayPlan(selected),code=p?`W${String(p.week).padStart(2,'0')} · D${p.dow+1}`:selected.slice(0,4),en=['SUN','MON','TUE','WED','THU','FRI','SAT'][new Date(selected+'T12:00:00Z').getUTCDay()];return `<div class="datebar"><label class="date-pick" aria-label="选择日期，当前${prettyDate(selected)} ${weekday(selected)}"><b>${selected.slice(5,7)}.${selected.slice(8,10)}</b><small>${en}</small>${selected===today()?'<em>TODAY</em>':''}<input class="date-input" type="date" id="date-picker" value="${selected}" aria-label="查看日期"></label><div class="date-actions"><button data-day="-1" aria-label="前一天">‹</button><span class="date-code">${code}</span><button data-day="1" aria-label="后一天">›</button></div></div>`;}
+function headerDate(){const p=dayPlan(selected),code=p?`W${String(p.week).padStart(2,'0')} · D${p.day+1}`:selected.slice(0,4),en=['SUN','MON','TUE','WED','THU','FRI','SAT'][new Date(selected+'T12:00:00Z').getUTCDay()];return `<div class="datebar"><label class="date-pick" aria-label="选择日期，当前${prettyDate(selected)} ${weekday(selected)}"><b>${selected.slice(5,7)}.${selected.slice(8,10)}</b><small>${en}</small>${selected===today()?'<em>TODAY</em>':''}<input class="date-input" type="date" id="date-picker" value="${selected}" aria-label="查看日期"></label><div class="date-actions"><button data-day="-1" aria-label="前一天">‹</button><span class="date-code">${code}</span><button data-day="1" aria-label="后一天">›</button></div></div>`;}
 function warmupHTML(p){const warm=state.logs[selected]?.warm||[];return `<details class="warmup"><summary><span class="warm-icon" aria-hidden="true">${dm('up')}</span><span class="warm-summary"><strong>热身</strong><small>${p.dow===1?'10–12分钟':p.dow===4?'3分钟':'20分钟'}</small></span><span class="warm-count">${warm.filter(Boolean).length}/${p.warmup.length}</span><span class="chevron" aria-hidden="true">⌄</span></summary>${p.warmup.map(([name,action,dose,cue],i)=>`<div class="warm-row"><input type="checkbox" id="warm-${i}" data-warm="${i}" ${warm[i]?'checked':''} ${future()?'disabled':''}><div class="warm-content"><label for="warm-${i}"><span class="warm-title">${action}</span><span class="warm-dose">${dose}</span></label><details class="warm-tip"><summary>动作要点</summary><p>${cue}</p></details></div></div>`).join('')}</details>`;}
 function exerciseHTML(ex,index,p){
  const log=state.logs[selected]?.items?.[ex.id],closed=log?.closed,values=log?.values||[];
- const sum=values.reduce((n,v)=>n+(Number(v)||0),0),status=closed?resultNames[log.result]||'已记录':values.some(v=>v!==null)?'进行中':'待完成';
  const disabled=future()||ex.paused,opened=activeExercise===ex.id,next=currentExercises[index+1];
- const rest=ex.rest>=60?`${ex.rest/60}分钟`:`${ex.rest}秒`;
- return `<article class="exercise ${closed?'completed':''} ${opened?'is-open':''}" data-ex="${ex.id}"><button class="ex-heading" data-focus="${ex.id}" aria-expanded="${opened}" aria-controls="exercise-body-${ex.id}"><span class="order">${closed?'✓':index+1}</span><span class="ex-title"><span class="exercise-name">${ex.name}</span><small><span class="tag">${ex.tag}</span>${targetText(ex)}</small></span><span class="status ${closed?log.result:''}">${ex.paused?'暂停':closed?status:opened?'进行中':'待练'}</span><span class="chevron" aria-hidden="true">${opened?'−':'＋'}</span></button>
+ const unit=`${ex.unit}${ex.side?'/侧':''}`,rest=restFor(ex),status=statusText(ex,log);
+ const setLabel=i=>ex.interval?`第${i+1}组：${ex.reps}次 ${ex.interval.work}秒挂 ${ex.interval.off}秒松`:ex.timed?`第${i+1}组：每侧${ex.reps}秒`:`第${i+1}组：${ex.reps}${unit}`;
+ const undo=log?.stopped&&!future()?`<button class="text-button" data-action="unstop" data-id="${ex.id}">撤销停止</button>`:ex.pausedFrom&&!future()?`<button class="text-button" data-goto="${ex.pausedFrom}">去 ${shortDate(ex.pausedFrom)} 撤销</button>`:'';
+ return `<article class="exercise ${closed?'completed':''} ${opened?'is-open':''}" data-ex="${ex.id}"><button class="ex-heading" data-focus="${ex.id}" aria-expanded="${opened}" aria-controls="exercise-body-${ex.id}"><span class="order">${closed?'✓':index+1}</span><span class="ex-title"><span class="exercise-name">${ex.name}</span><small><span class="tag">${ex.tag}</span><span class="ex-target">${targetText(ex)}</span></small></span>${status?`<span class="status ${ex.paused?'':log.result}">${status}</span>`:''}<span class="chevron" aria-hidden="true">${opened?'−':'＋'}</span></button>
  <div class="exercise-body" id="exercise-body-${ex.id}" ${opened?'':'hidden'}>
- <div class="dose-line"><div class="dose">${dm(ex.sets)}<span>组</span> <em>×</em> ${dm(ex.reps)}<span>${ex.unit}${ex.side?'/侧':''}</span></div><span class="rest-chip">休息 ${rest}</span></div>
- ${ex.adjustment?`<p class="adjustment">${ex.adjustment}</p>`:amountChange(ex,p)?`<p class="increase">${amountChange(ex,p)}</p>`:''}
+ <div class="dose-line"><div class="dose">${dm(ex.sets)}<span>组</span> <em>×</em> ${dm(ex.reps)}<span>${unit}</span></div><span class="rest-edit" data-rest-for="${ex.id}"><button type="button" class="rest-step" data-rest-step="-15" data-id="${ex.id}" aria-label="休息减少15秒">−</button><span class="rest-chip" aria-live="polite">休息 ${fmtRest(rest)}</span><button type="button" class="rest-step" data-rest-step="15" data-id="${ex.id}" aria-label="休息增加15秒">＋</button></span></div>
+ ${ex.interval?`<p class="interval-note">每次：挂 ${ex.interval.work} 秒 · 松 ${ex.interval.off} 秒</p>`:''}
+ ${ex.adjustment?`<p class="adjustment">${ex.adjustment}${undo?` ${undo}`:''}</p>`:amountChange(ex,p)?`<p class="increase">${amountChange(ex,p)}</p>`:''}
  <p class="cue">${ex.cue}</p>
- <div class="sets">${Array.from({length:ex.sets},(_,i)=>`<button class="set-btn ${values[i]!=null?'checked':''} ${justSet===`${ex.id}:${i}`?'pop':''}" data-set="${i}" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${values[i]!=null}" aria-label="${ex.name}第${i+1}组${values[i]!=null?'已记录，点击撤销':`完成${ex.reps}${ex.unit}${ex.side?'每侧':''}`}"><span>${values[i]!=null?'✓':i+1}</span><small>${values[i]??ex.reps}${ex.unit}${ex.side?'/侧':''}</small></button>`).join('')}</div>
- ${closed?`<details class="actual-record"><summary>${resultNames[log.result]} · 合计${sum}${ex.unit}${ex.side?'/侧':''}</summary><p>实际：${values.map(v=>v??0).join(' / ')} ${ex.unit}${ex.side?'/侧':''}${log.stopped?' · 因不适停止':''}${log.note?`<br>${escape(log.note)}`:''}</p></details>`:''}
- <div class="card-actions"><button class="complete" data-action="done" data-id="${ex.id}" ${disabled?'disabled':''}>${closed?'改为按计划完成':'✓ 全部完成'}</button><div class="adjust-row"><button data-action="more" data-id="${ex.id}" ${disabled?'disabled':''}>多做了</button><button data-action="less" data-id="${ex.id}" ${disabled?'disabled':''}>少做了</button><button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适，停止</button></div></div>
+ <div class="sets">${Array.from({length:ex.sets},(_,i)=>`<button class="set-btn ${values[i]!=null?'checked':''} ${justSet===`${ex.id}:${i}`?'pop':''}" data-set="${i}" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${values[i]!=null}" aria-label="${setLabel(i)}${values[i]!=null?'，已记录，点击撤销':(ex.interval||ex.timed)?'，点击开始计时':''}">${values[i]!=null?'✓':i+1}</button>`).join('')}</div>
+ ${closed&&log.result!=='done'?`<p class="actual-record">实际 ${values.map(v=>v??0).join(' / ')} ${unit}${log.note?` · ${escape(log.note)}`:''}</p>`:''}
+ <div class="card-actions"><button class="complete" data-action="done" data-id="${ex.id}" ${disabled||(closed&&log.result==='done')?'disabled':''}>${closed&&log.result==='done'?'✓ 已完成':closed?'改为按计划完成':'✓ 全部完成'}</button><div class="adjust-row"><button data-action="adjust" data-id="${ex.id}" ${disabled?'disabled':''}>调整实际</button>${log?.stopped?'':`<button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适停止</button>`}</div></div>
  <details class="instructions" data-detail="${ex.id}"><summary>怎么做</summary><p class="setup">${ex.setup}</p><ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${ex.demo?`<div class="demo-stage" data-demo="${ex.demo}"><svg viewBox="0 0 300 155" role="img" aria-label="${ex.name}动作示意，不替代现场指导"></svg><div class="demo-control"><button type="button" data-play="${ex.demo}" aria-pressed="false">播放示意</button></div></div>`:''}<a class="video-link" target="_blank" rel="noopener noreferrer" href="https://search.bilibili.com/all?keyword=${encodeURIComponent(ex.query)}">B站视频搜索 ↗</a></details>
  ${closed?`<div class="exercise-footer"><button class="next-action" ${next?`data-next="${next.id}"`:'data-finish-session'}>${next?'下一条线路 →':'登顶！记录感受 →'}</button></div>`:''}</div></article>`;
 }
@@ -457,7 +479,26 @@ function renderToday(){
  <details class="session-note" id="session-note"><summary><strong>训练感受</strong></summary><div class="two-fields"><label class="field">吃力程度（1–10）<input inputmode="numeric" type="number" min="1" max="10" step="1" data-session="rpe" value="${escape(log.rpe??'')}" placeholder="例如 7" ${future()?'disabled':''}></label><label class="field">疼痛（0–10）<input inputmode="numeric" type="number" min="0" max="10" step="1" data-session="pain" value="${escape(log.pain??'')}" placeholder="无痛填 0" ${future()?'disabled':''}></label></div><label class="field">备注<textarea rows="2" maxlength="500" data-session="note" placeholder="今天感觉怎么样？" ${future()?'disabled':''}>${escape(log.note||'')}</textarea></label></details>
  <details class="training-notes"><summary>进阶与恢复说明</summary><p>第4、8周减量。少做后暂不加量；多做不额外加量；不适就停。</p><p>${p.description}</p></details>`;
 }
-function renderPlan(){const w=planWeek-1,nowWeek=dayPlan(today())?.week;return `<section class="hero"><div class="eyebrow">11.09 — 01.03</div><h1>8周计划</h1></section><div class="week-picker" role="group" aria-label="选择训练周">${Array.from({length:8},(_,i)=>`<button data-week="${i+1}" aria-pressed="${planWeek===i+1}" class="${planWeek===i+1?'selected':''} ${i===3||i===7?'deload':''} ${nowWeek===i+1?'now':''}"><small>W</small>${String(i+1).padStart(2,'0')}<small>${i===3||i===7?'减量':'周'}</small></button>`).join('')}</div><section class="week-block"><div class="week-heading"><h2>${weekNames[w]}</h2><span>${shortDate(addDays(START,w*7))}—${shortDate(addDays(START,w*7+6))}</span></div><div class="plan-list">${Array.from({length:7},(_,dow)=>{const date=addDays(START,w*7+dow),p=dayPlan(date),l=state.logs[date],count=Object.values(l?.items||{}).filter(i=>i.closed).length;return `<button class="plan-row ${date===today()?'selected':''} ${p.rest?'rest-row':''}" data-goto="${date}"><span class="cal-date">${weekday(date)}<b>${shortDate(date)}</b></span><span><span class="row-title">${p.rest?'休息':p.title}</span>${!p.rest?`<small>${p.main.length}条线路 · ${p.duration.replace('约','').replace('，含休息','')}</small>`:''}</span><span class="row-status">${p.rest?'—':`${holdsHTML(p,l)}${count===p.main.length?'<span class="sent">完攀</span>':''}`}</span></button>`;}).join('')}</div></section><p class="footnote">第4、8周减量。</p>`;}
+// 计划总览：按住行右侧的把手上下拖，可在本周内换顺序；已有记录的日子锁定。
+function weekOrder(w){return isPermutation(state.weekOrders[w])?[...state.weekOrders[w]]:[0,1,2,3,4,5,6];}
+function renderPlan(){const w=planWeek-1,nowWeek=dayPlan(today())?.week,custom=isPermutation(state.weekOrders[planWeek]);
+ return `<section class="hero"><div class="eyebrow">11.09 — 01.03</div><h1>计划总览</h1></section><div class="week-picker" role="group" aria-label="选择训练周">${Array.from({length:8},(_,i)=>`<button data-week="${i+1}" aria-pressed="${planWeek===i+1}" class="${planWeek===i+1?'selected':''} ${i===3||i===7?'deload':''} ${nowWeek===i+1?'now':''}"><small>W</small>${String(i+1).padStart(2,'0')}<small>${i===3||i===7?'减量':'周'}</small></button>`).join('')}</div>
+ <section class="week-block"><div class="week-heading"><h2>${weekNames[w]}</h2><span>${shortDate(addDays(START,w*7))}—${shortDate(addDays(START,w*7+6))}</span></div>
+ <div class="plan-list" data-plan-week="${planWeek}">${Array.from({length:7},(_,d)=>{const date=addDays(START,w*7+d),p=dayPlan(date),l=state.logs[date],locked=hasLog(l),count=Object.values(l?.items||{}).filter(i=>i.closed).length;
+  return `<div class="plan-row ${date===today()?'selected':''} ${p.rest?'rest-row':''} ${locked?'locked':''}" data-row="${d}"><button class="plan-open" data-goto="${date}"><span class="cal-date">${weekday(date)}<b>${shortDate(date)}</b></span><span><span class="row-title">${p.rest?'休息':p.title}</span>${!p.rest?`<small>${p.main.length}条线路 · ${p.duration.replace('约','').replace('，含休息','')}</small>`:''}</span><span class="row-status">${p.rest?'':`${holdsHTML(p,l)}${count===p.main.length?'<span class="sent">完攀</span>':''}`}</span></button><span class="drag-handle" ${locked?'aria-hidden="true"':'role="button" tabindex="0" aria-label="拖动调整顺序"'} data-handle="${d}">${locked?'':'⠿'}</span></div>`;}).join('')}</div>
+ ${custom?'<button class="text-button reset-order" data-reset-order>恢复本周默认顺序</button>':''}</section><p class="footnote">按住右侧 ⠿ 拖动，可调整本周训练日顺序。已有记录的日子不能移动。第4、8周减量。</p>`;}
+function moveDay(week,from,to){const w=week-1,dates=Array.from({length:7},(_,d)=>addDays(START,w*7+d));if(from===to)return false;
+ const lo=Math.min(from,to),hi=Math.max(from,to);for(let d=lo;d<=hi;d++)if(hasLog(state.logs[dates[d]])){toast('有记录的日子不能移动');return false;}
+ const order=weekOrder(week),[moved]=order.splice(from,1);order.splice(to,0,moved);
+ if(order.every((v,i)=>v===i))delete state.weekOrders[week];else state.weekOrders[week]=order;setWeekOrders(state.weekOrders);save();return true;}
+let drag=null;
+document.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-handle]');if(!h||h.closest('.locked'))return;const row=h.closest('.plan-row'),list=row.parentElement;e.preventDefault();
+ const rows=[...list.children],rects=rows.map(r=>r.getBoundingClientRect());drag={list,row,rows,rects,from:rows.indexOf(row),to:rows.indexOf(row),startY:e.clientY,week:Number(list.dataset.planWeek)};row.classList.add('dragging');h.setPointerCapture?.(e.pointerId);navigator.vibrate?.(15);});
+document.addEventListener('pointermove',e=>{if(!drag)return;const dy=e.clientY-drag.startY,{rows,rects,from,row}=drag,h=rects[from].height+8;row.style.transform=`translateY(${dy}px)`;
+ const y=rects[from].top+rects[from].height/2+dy;let to=rects.findIndex(r=>y<r.top+r.height/2);if(to<0)to=rows.length-1;else if(to>from)to--;to=Math.max(0,Math.min(rows.length-1,to));drag.to=to;
+ rows.forEach((r,i)=>{if(i===from)return;r.style.transform=i>from&&i<=to?`translateY(${-h}px)`:i<from&&i>=to?`translateY(${h}px)`:'';});});
+function endDrag(){if(!drag)return;const {rows,from,to,week}=drag;rows.forEach(r=>{r.style.transform='';r.classList.remove('dragging');});drag=null;if(moveDay(week,from,to)){render();toast('已调整本周顺序');}}
+document.addEventListener('pointerup',endDrag);document.addEventListener('pointercancel',endDrag);
 function renderHistory(){
  const days=Object.entries(state.logs).filter(([,l])=>Object.keys(l.items||{}).length||l.note).sort(([a],[b])=>b.localeCompare(a));
  const total=days.reduce((n,[,l])=>n+Object.values(l.items||{}).filter(i=>i.closed).length,0);
@@ -468,37 +509,81 @@ function render(){stopDemos();app.innerHTML=tab==='today'?renderToday():tab==='p
 function goto(date){selected=date;activeExercise=null;tab='today';render();window.scrollTo({top:0,behavior:'instant'});}
 function progressHTML(count,total){const items=state.logs[selected]?.items||{},all=count===total;return `<div class="route" role="progressbar" aria-label="主训练记录进度" aria-valuenow="${count}" aria-valuemin="0" aria-valuemax="${total}">${currentExercises.map((e,i)=>`${i?`<span class="route-link ${items[e.id]?.closed&&items[currentExercises[i-1].id]?.closed?'done':''}"></span>`:''}<span class="route-hold ${items[e.id]?.closed?'done':e.paused?'paused':''}"></span>`).join('')}<span class="route-link ${all?'done':''}"></span><span class="route-top ${all?'done':''} ${all&&justTopped?'pop':''}">TOP</span></div>${all?'<span class="progress-caption done">完攀！</span>':''}`;}
 function rerenderCard(id){const ex=currentExercises.find(e=>e.id===id),old=app.querySelector(`[data-ex="${id}"]`);if(!ex||!old)return;stopDemos();const y=window.scrollY,open=old.querySelector('.instructions')?.open;old.outerHTML=exerciseHTML(ex,currentExercises.indexOf(ex),currentPlan());if(open)app.querySelector(`[data-ex="${id}"] .instructions`).open=true;drawAllDemos();const count=currentExercises.filter(e=>state.logs[selected]?.items?.[e.id]?.closed).length;const block=$('.progress-block');if(block){justTopped=count===currentExercises.length&&!block.querySelector('.route-top.done');block.innerHTML=progressHTML(count,currentExercises.length);justTopped=false;}const heroCount=$('.hero-count');if(heroCount)heroCount.innerHTML=countHTML(count,currentExercises.length);window.scrollTo(0,y);}
-let timerTotal=0,timerDoneAt=0,lastClock='';
-function startTimer(ex){timerTotal=timerLeft=ex.rest*1000;timerDeadline=Date.now()+timerLeft;timerPaused=false;timerDoneAt=0;const el=$('#timer');el.className='timer';$('#timer-label').textContent=`${ex.name} · 组间休息`;el.hidden=false;$('#timer-pause').textContent='暂停';updateTimer();}
-function updateTimer(){const el=$('#timer');if(el.hidden)return;if(!timerPaused)timerLeft=Math.max(0,timerDeadline-Date.now());const seconds=Math.ceil(timerLeft/1000),ratio=timerTotal?timerLeft/timerTotal:0;const clock=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;if(clock!==lastClock){lastClock=clock;$('#timer-clock').innerHTML=dm(clock);}const ring=$('#timer-ring');if(ring)ring.setAttribute('stroke-dashoffset',String(113.1*(1-ratio)));el.style?.setProperty?.('--left-ratio',String(ratio));if(seconds===0){if(!timerDoneAt){timerDoneAt=Date.now();el.classList.add('finished');navigator.vibrate?.(200);}$('#timer-label').textContent='休息结束，上墙！';$('#timer-pause').hidden=true;if(Date.now()-timerDoneAt>15000)el.hidden=true;}else $('#timer-pause').hidden=false;}
-setInterval(updateTimer,250);
-$('#timer-pause').onclick=()=>{timerPaused=!timerPaused;if(!timerPaused)timerDeadline=Date.now()+timerLeft;$('#timer-pause').textContent=timerPaused?'继续':'暂停';};
-$('#timer-close').onclick=()=>{$('#timer').hidden=true;};
-function showDialog(ex,mode){dialogEx=ex;dialogMode=mode;const log=state.logs[selected]?.items?.[ex.id];$('#dialog-title').textContent=`${ex.name} · ${mode==='more'?'多做了':'少做了'}`;$('#dialog-target').textContent=`原计划：${targetText(ex)}。填写每组实际${ex.unit}${ex.side?'（每侧）':''}。`;$('#record-note').value=log?.note||'';$('#dialog-error').textContent='';$('#dialog-sets').innerHTML='';const count=Math.max(ex.sets,log?.values?.length||0);for(let i=0;i<count;i++)addDialogSet(log?.values?.[i]??(mode==='more'?ex.reps:''));if(mode==='more'&&count===ex.sets)addDialogSet('');$('#record-dialog').showModal();}
+// 计时：倒数 3·2·1 → 动作计时（悬挂 7/3 间歇、侧桥左右）→ 组间休息。每段开始和结束都有提示音。
+const restFor=ex=>state.rest?.[ex.id]??ex.rest;
+let timer=null,timerTick=0,lastClock='',audioCtx=null,muted=localStorage.getItem('climb-daily-mute')==='1';
+function beep(freq=880,ms=120,when=0){if(muted)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();const t=audioCtx.currentTime+when,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+ms/1000);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+ms/1000+.02);}catch{}}
+const cue={tick:()=>{beep(660,90);navigator.vibrate?.(40);},go:()=>{beep(1175,260);navigator.vibrate?.(120);},stop:()=>{beep(880,140);beep(587,220,.16);navigator.vibrate?.([80,60,80]);}};
+function buildSteps(ex){const steps=[{kind:'count',label:'准备',sec:3}];
+ if(ex.interval)for(let r=0;r<ex.reps;r++){steps.push({kind:'work',label:`挂 · 第 ${r+1}/${ex.reps} 次`,sec:ex.interval.work});if(r<ex.reps-1)steps.push({kind:'off',label:'松手',sec:ex.interval.off});}
+ else if(ex.timed){steps.push({kind:'work',label:'左侧保持',sec:ex.reps},{kind:'off',label:'换边',sec:ex.timed.switch},{kind:'work',label:'右侧保持',sec:ex.reps});}
+ return steps;}
+function startTimer(ex,setIndex=null,mode='rest'){
+ const steps=mode==='set'?buildSteps(ex):[];steps.push({kind:'rest',label:'组间休息',sec:restFor(ex)});
+ timer={ex,setIndex,steps,i:0,paused:false,left:steps[0].sec*1000,deadline:Date.now()+steps[0].sec*1000,doneAt:0};
+ audioCtx?.resume?.();if(mode==='set')cue.tick();showTimer();}
+function showTimer(){const el=$('#timer');el.hidden=false;el.classList.remove('finished');el.dataset.kind=timer.steps[timer.i].kind;$('#timer-pause').textContent='暂停';$('#timer-adjust').hidden=timer.steps[timer.i].kind!=='rest';lastClock='';updateTimer();}
+function nextStep(){const step=timer.steps[timer.i];
+ if(step.kind==='work'&&timer.steps[timer.i+1]?.kind!=='work')cue.stop();
+ timer.i++;
+ if(timer.i>=timer.steps.length){timer.doneAt=Date.now();$('#timer').classList.add('finished');$('#timer-label').textContent='休息结束，开始下一组';$('#timer-pause').hidden=true;$('#timer-adjust').hidden=true;cue.go();return;}
+ const n=timer.steps[timer.i];
+ if(n.kind==='rest'&&timer.setIndex!=null)completeTimedSet();
+ if(n.kind==='work')cue.go();else if(n.kind==='off')cue.stop();
+ timer.left=n.sec*1000;timer.deadline=Date.now()+timer.left;showTimer();}
+function completeTimedSet(){const {ex,setIndex}=timer;const log=setLog(ex);if(log.values[setIndex]==null){log.values[setIndex]=ex.reps;closeIfComplete(ex,log);save();justSet=`${ex.id}:${setIndex}`;rerenderCard(ex.id);justSet=null;}
+ if(log.closed){timer.steps=timer.steps.slice(0,timer.i);timer.i=timer.steps.length-1;timer.left=0;}timer.setIndex=null;}
+function updateTimer(){const el=$('#timer');if(el.hidden||!timer)return;
+ if(timer.doneAt){if(Date.now()-timer.doneAt>15000)el.hidden=true;return;}
+ if(!timer.paused)timer.left=Math.max(0,timer.deadline-Date.now());
+ const step=timer.steps[timer.i],sec=Math.ceil(timer.left/1000),ratio=step.sec?timer.left/(step.sec*1000):0;
+ if(step.kind==='count'&&sec!==timerTick&&sec>0&&sec<3){timerTick=sec;cue.tick();}
+ if(step.kind==='rest'&&sec<=3&&sec>0&&sec!==timerTick){timerTick=sec;cue.tick();}
+ const clock=step.kind==='rest'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:String(sec);
+ if(clock!==lastClock){lastClock=clock;$('#timer-clock').innerHTML=dm(clock);$('#timer-label').textContent=step.kind==='rest'?`${timer.ex.name} · ${step.label}`:step.label;}
+ el.style.setProperty('--left-ratio',String(ratio));
+ if(timer.left<=0&&!timer.paused){timerTick=0;nextStep();}}
+setInterval(updateTimer,100);
+$('#timer-pause').onclick=()=>{if(!timer)return;timer.paused=!timer.paused;if(!timer.paused)timer.deadline=Date.now()+timer.left;$('#timer-pause').textContent=timer.paused?'继续':'暂停';};
+$('#timer-close').onclick=()=>{$('#timer').hidden=true;timer=null;};
+$('#timer-mute').onclick=()=>{muted=!muted;localStorage.setItem('climb-daily-mute',muted?'1':'0');$('#timer-mute').setAttribute('aria-pressed',String(muted));$('#timer-mute').textContent=muted?'静音':'声音';};
+$('#timer-mute').textContent=muted?'静音':'声音';$('#timer-mute').setAttribute('aria-pressed',String(muted));
+function changeRest(ex,d){const cur=restFor(ex),next=Math.max(15,Math.min(600,cur+d));if(next===cur)return;state.rest[ex.id]=next;save();
+ if(timer&&timer.ex.id===ex.id){const rs=timer.steps.find(st=>st.kind==='rest');if(rs)rs.sec=next;if(timer.steps[timer.i].kind==='rest'&&!timer.doneAt){timer.left=Math.max(1000,timer.left+(next-cur)*1000);timer.deadline=Date.now()+timer.left;lastClock='';updateTimer();}}
+ const chip=document.querySelector(`[data-rest-for="${ex.id}"] .rest-chip`);if(chip)chip.textContent=`休息 ${fmtRest(next)}`;}
+document.querySelectorAll('[data-rest-adjust]').forEach(b=>b.onclick=()=>{if(!timer||timer.steps[timer.i].kind!=='rest')return;changeRest(timer.ex,Number(b.dataset.restAdjust));});
+const closeIfComplete=(ex,log)=>{log.closed=Array.from({length:ex.sets},(_,n)=>log.values[n]!=null).every(Boolean);log.result=log.closed?resultFor(log.values,ex):null;};
+function showDialog(ex){dialogEx=ex;const log=state.logs[selected]?.items?.[ex.id];$('#dialog-title').textContent=`${ex.name} · 调整实际`;$('#dialog-target').textContent=`计划 ${targetText(ex)}，填写每组实际完成。`;$('#record-note').value=log?.note||'';$('#dialog-error').textContent='';$('#dialog-sets').innerHTML='';const count=Math.max(ex.sets,log?.values?.length||0);for(let i=0;i<count;i++)addDialogSet(log?.values?.[i]??ex.reps);$('#record-dialog').showModal();}
 function addDialogSet(value=''){const i=$('#dialog-sets').children.length;const row=document.createElement('div');row.className='dialog-set';row.innerHTML=`<label for="actual-${i}">第${i+1}组</label><input id="actual-${i}" type="number" inputmode="numeric" min="0" max="999" step="1" value="${escape(value)}" aria-label="第${i+1}组实际完成"><span>${dialogEx.unit}${dialogEx.side?'/侧':''}</span>${i>=dialogEx.sets?'<button type="button" data-remove-set aria-label="删除加做组">×</button>':''}`;$('#dialog-sets').append(row);}
 $('#add-set').onclick=()=>{if($('#dialog-sets').children.length>=30){toast('最多记录30组。');return;}addDialogSet();};
 $('#record-dialog').addEventListener('click',e=>{if(e.target.closest('[data-close]'))$('#record-dialog').close();const remove=e.target.closest('[data-remove-set]');if(remove)remove.closest('.dialog-set').remove();});
-$('#record-form').addEventListener('submit',e=>{e.preventDefault();if(!mayLog())return;const inputs=[...$('#dialog-sets').querySelectorAll('input')],values=inputs.map(i=>i.value===''?0:Number(i.value));if(values.some(n=>!Number.isInteger(n)||n<0||n>999)){$('#dialog-error').textContent='请填写0–999之间的整数。';return;}const result=resultFor(values,dialogEx);if(result!==dialogMode){$('#dialog-error').textContent=dialogMode==='more'?'实际总量需要大于计划量；若已按计划完成，请关闭后点“按计划完成”。':'实际总量需要少于计划量；若已按计划完成，请关闭后点“按计划完成”。';return;}const log=setLog(dialogEx);Object.assign(log,{values,closed:true,result,note:$('#record-note').value.trim(),stopped:false});save();$('#record-dialog').close();rerenderCard(dialogEx.id);toast(`已记录：${resultNames[result]}`);});
+$('#record-form').addEventListener('submit',e=>{e.preventDefault();if(!mayLog())return;const inputs=[...$('#dialog-sets').querySelectorAll('input')],values=inputs.map(i=>i.value===''?0:Number(i.value));if(values.some(n=>!Number.isInteger(n)||n<0||n>999)){$('#dialog-error').textContent='请填写0–999之间的整数。';return;}const result=resultFor(values,dialogEx);const log=setLog(dialogEx);Object.assign(log,{values,closed:true,result,note:$('#record-note').value.trim(),stopped:false});save();$('#record-dialog').close();rerenderCard(dialogEx.id);toast(result==='done'?'已按计划记录':`已记录：${resultNames[result]}`);});
 document.addEventListener('click',e=>{
  const t=e.target.closest('button');if(!t)return;
  if(t.dataset.tab){tab=t.dataset.tab;if(tab==='today'){selected=demo?addDays(START,1):today();activeExercise=null;}render();window.scrollTo(0,0);return;}
+ if(t.dataset.restStep){const ex=currentExercises.find(x=>x.id===t.dataset.id);if(ex)changeRest(ex,Number(t.dataset.restStep));return;}
  if(t.dataset.week){planWeek=Number(t.dataset.week);render();return;}
- if(t.dataset.focus||t.dataset.next){const id=t.dataset.focus||t.dataset.next;activeExercise=t.dataset.focus&&activeExercise===id?'':id;stopDemos();document.querySelectorAll('[data-ex]').forEach(card=>{const open=card.dataset.ex===activeExercise,ex=currentExercises.find(x=>x.id===card.dataset.ex),record=state.logs[selected]?.items?.[card.dataset.ex];card.classList.toggle('is-open',open);card.querySelector('.exercise-body').hidden=!open;card.querySelector('[data-focus]').setAttribute('aria-expanded',String(open));card.querySelector('.chevron').textContent=open?'−':'＋';card.querySelector('.status').textContent=ex?.paused?'暂停':record?.closed?resultNames[record.result]:open?'进行中':'待练';});drawAllDemos();if(t.dataset.next)document.querySelector(`[data-ex="${id}"]`)?.scrollIntoView({block:'start',behavior:'instant'});return;}
+ if(t.hasAttribute('data-reset-order')){delete state.weekOrders[planWeek];setWeekOrders(state.weekOrders);save();render();toast('已恢复默认顺序');return;}
+ if(t.dataset.focus||t.dataset.next){const id=t.dataset.focus||t.dataset.next;activeExercise=t.dataset.focus&&activeExercise===id?'':id;stopDemos();document.querySelectorAll('[data-ex]').forEach(card=>{const open=card.dataset.ex===activeExercise,ex=currentExercises.find(x=>x.id===card.dataset.ex),record=state.logs[selected]?.items?.[card.dataset.ex];card.classList.toggle('is-open',open);card.querySelector('.exercise-body').hidden=!open;card.querySelector('[data-focus]').setAttribute('aria-expanded',String(open));card.querySelector('.chevron').textContent=open?'−':'＋';});drawAllDemos();if(t.dataset.next)document.querySelector(`[data-ex="${id}"]`)?.scrollIntoView({block:'start',behavior:'instant'});return;}
  if(t.hasAttribute('data-finish-session')){const note=$('#session-note');if(note){note.open=true;note.scrollIntoView({block:'center',behavior:'instant'});note.querySelector('input')?.focus({preventScroll:true});}return;}
  if(t.dataset.switch){tab=t.dataset.switch;render();window.scrollTo(0,0);return;}
  if(t.dataset.goto){goto(t.dataset.goto);return;}
  if(t.dataset.day){goto(addDays(selected,Number(t.dataset.day)));return;}
  if(t.hasAttribute('data-demo-link')){const url=new URL(location.href);url.searchParams.set('demo','1');location.href=url.href;return;}
  if(t.hasAttribute('data-set')){
-  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;const log=setLog(ex),i=Number(t.dataset.set),was=log.values[i]!=null;log.values[i]=was?null:ex.reps;log.closed=Array.from({length:ex.sets},(_,n)=>log.values[n]!=null).every(Boolean);log.result=log.closed?resultFor(log.values,ex):null;log.stopped=false;save();justSet=was?null:`${ex.id}:${i}`;rerenderCard(ex.id);justSet=null;if(!was&&!log.closed)startTimer(ex);return;
+  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;const log=setLog(ex),i=Number(t.dataset.set),was=log.values[i]!=null;
+  if(!was&&(ex.interval||ex.timed)){startTimer(ex,i,'set');return;}
+  log.values[i]=was?null:ex.reps;closeIfComplete(ex,log);log.stopped=false;save();justSet=was?null:`${ex.id}:${i}`;rerenderCard(ex.id);justSet=null;if(!was&&!log.closed)startTimer(ex);return;
  }
  if(t.dataset.action){
-  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex||ex.paused)return;
-  if(t.dataset.action==='more'||t.dataset.action==='less'){showDialog(ex,t.dataset.action);return;}
+  if(!mayLog())return;const ex=currentExercises.find(x=>x.id===t.dataset.id);if(!ex)return;
+  if(t.dataset.action==='unstop'){const log=state.logs[selected]?.items?.[ex.id];if(!log)return;const before=log.beforeStop;if(before){Object.assign(log,before);delete log.beforeStop;}else{log.values=log.values.map(()=>null);log.closed=false;log.result=null;}log.stopped=false;log.note=String(log.note||'').replace(/^因不适停止。/,'');save();render();toast('已撤销停止');return;}
+  if(ex.paused)return;
+  if(t.dataset.action==='adjust'){showDialog(ex);return;}
   const log=setLog(ex);
   if(t.dataset.action==='done'){Object.assign(log,{values:Array(ex.sets).fill(ex.reps),closed:true,result:'done',stopped:false});save();rerenderCard(ex.id);toast('已按计划记录完成');return;}
   if(t.dataset.action==='stop'){
-   log.values=log.values.map(v=>v??0);Object.assign(log,{closed:true,result:resultFor(log.values,ex),stopped:true,note:'因不适停止。'+(log.note||'')});ex.paused=true;ex.adjustment='本次因不适停止，今天不再继续此动作。后续也会暂停，待恢复安排明确后再调整。';save();rerenderCard(ex.id);toast('已记录停止，后续暂停此动作。');return;
+   log.beforeStop={values:[...log.values],closed:log.closed,result:log.result,note:log.note||''};log.values=log.values.map(v=>v??0);Object.assign(log,{closed:true,result:resultFor(log.values,ex),stopped:true,note:'因不适停止。'+(log.note||'')});if(timer?.ex.id===ex.id){$('#timer').hidden=true;timer=null;}save();render();toast('已停止，后续暂停此动作。点「撤销停止」可恢复');return;
   }
  }
  if(t.id==='export-data'){const blob=new Blob([JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`岩序训练备份_${today()}${demo?'_体验':''}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('备份已导出');}
@@ -511,7 +596,7 @@ document.addEventListener('change',async e=>{
  if(t.hasAttribute('data-warm')){if(!mayLog())return;logDay().warm??=[];logDay().warm[Number(t.dataset.warm)]=t.checked;save();const warm=$('.warmup summary .warm-count');if(warm)warm.textContent=`${logDay().warm.filter(Boolean).length}/${currentPlan().warmup.length}`;return;}
  if(t.dataset.session){if(!mayLog())return;let val=t.value;if(t.dataset.session!=='note'){if(val==='')val=null;else{val=Number(val);const min=t.dataset.session==='rpe'?1:0;if(!Number.isInteger(val)||val<min||val>10){toast(`请填${min}–10之间的整数`);t.value=logDay()[t.dataset.session]??'';return;}}}logDay()[t.dataset.session]=val;save();return;}
  if(t.id==='import-file'&&t.files[0]){
-  try{const file=t.files[0];if(file.size>2000000)throw Error('文件过大');const input=JSON.parse(await file.text());const clean=cleanImport(input);state.logs={...state.logs,...clean.logs};save();render();toast('备份已恢复，同一天记录以备份为准。');}catch(err){toast('无法恢复：'+err.message);}
+  try{const file=t.files[0];if(file.size>2000000)throw Error('文件过大');const input=JSON.parse(await file.text());const clean=cleanImport(input);state.logs={...state.logs,...clean.logs};for(const [w,o] of Object.entries(input.weekOrders||{}))if(/^[1-8]$/.test(w)&&isPermutation(o))state.weekOrders[w]=o;for(const [id,v] of Object.entries(input.rest||{}))if(exercises[id]&&Number.isInteger(v)&&v>=15&&v<=600)state.rest[id]=v;setWeekOrders(state.weekOrders);save();render();toast('备份已恢复，同一天记录以备份为准。');}catch(err){toast('无法恢复：'+err.message);}
  }
 });
 function cleanImport(input){
