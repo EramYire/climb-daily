@@ -213,11 +213,10 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 
 /* 8 周计划 */
 .week-picker{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:20px}
-.week-picker button{min-width:0;min-height:60px;padding:6px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-radius:16px;box-shadow:inset 0 0 0 1px var(--line);font-family:var(--mono);font-size:17px;font-weight:600}
-.week-picker small{font-family:-apple-system,"PingFang SC",sans-serif;font-size:10px;font-weight:500;line-height:1.3}
-.week-picker .deload small{color:var(--red)}
+.week-picker button{min-width:0;min-height:48px;padding:6px 0;display:flex;align-items:center;justify-content:center;border-radius:16px;box-shadow:inset 0 0 0 1px var(--line);font-size:14px;font-weight:600;white-space:nowrap}
+.week-picker .deload:not(.selected){color:var(--red)}
 .week-picker .now:not(.selected){box-shadow:inset 0 0 0 1.5px var(--red)}
-.week-picker .selected{background:var(--brand);color:var(--brand-ink);box-shadow:none}.week-picker .selected small{color:inherit;opacity:.75}
+.week-picker .selected{background:var(--brand);color:var(--brand-ink);box-shadow:none}
 .week-block{margin-top:22px}
 .week-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .week-heading h2{font-size:17px}.week-heading>span{font-size:11px;color:var(--muted)}
@@ -303,7 +302,7 @@ dialog::backdrop{background:#0009;backdrop-filter:blur(4px)}
 
 @media(min-width:760px){#app{padding-top:28px}h1{font-size:34px}.dose{font-size:50px}}
 @media(max-width:374px){#app{padding-left:14px;padding-right:14px}h1{font-size:26px}.hero-count{font-size:34px}.dose{font-size:38px}.ex-heading{padding-left:13px;padding-right:12px;gap:10px}.exercise-body{padding:0 14px 12px}.sets{gap:7px}.date-pick b{font-size:23px}.stat b{font-size:26px}.welcome-date{font-size:54px}}
-@media(max-width:430px){.week-picker{grid-template-columns:repeat(4,1fr);gap:8px}.week-picker button{min-height:52px;flex-direction:row;gap:4px}}
+@media(max-width:430px){.week-picker{grid-template-columns:repeat(4,1fr);gap:8px}.week-picker button{min-height:46px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 </style>
@@ -482,7 +481,7 @@ function renderToday(){
 // 计划总览：按住行右侧的把手上下拖，可在本周内换顺序；已有记录的日子锁定。
 function weekOrder(w){return isPermutation(state.weekOrders[w])?[...state.weekOrders[w]]:[0,1,2,3,4,5,6];}
 function renderPlan(){const w=planWeek-1,nowWeek=dayPlan(today())?.week,custom=isPermutation(state.weekOrders[planWeek]);
- return `<section class="hero"><div class="eyebrow">11.09 — 01.03</div><h1>计划总览</h1></section><div class="week-picker" role="group" aria-label="选择训练周">${Array.from({length:8},(_,i)=>`<button data-week="${i+1}" aria-pressed="${planWeek===i+1}" class="${planWeek===i+1?'selected':''} ${i===3||i===7?'deload':''} ${nowWeek===i+1?'now':''}"><small>W</small>${String(i+1).padStart(2,'0')}<small>${i===3||i===7?'减量':'周'}</small></button>`).join('')}</div>
+ return `<section class="hero"><div class="eyebrow">11.09 — 01.03</div><h1>计划总览</h1></section><div class="week-picker" role="group" aria-label="选择训练周">${Array.from({length:8},(_,i)=>`<button data-week="${i+1}" aria-pressed="${planWeek===i+1}" class="${planWeek===i+1?'selected':''} ${i===3||i===7?'deload':''} ${nowWeek===i+1?'now':''}">第${i+1}周</button>`).join('')}</div>
  <section class="week-block"><div class="week-heading"><h2>${weekNames[w]}</h2><span>${shortDate(addDays(START,w*7))}—${shortDate(addDays(START,w*7+6))}</span></div>
  <div class="plan-list" data-plan-week="${planWeek}">${Array.from({length:7},(_,d)=>{const date=addDays(START,w*7+d),p=dayPlan(date),l=state.logs[date],locked=hasLog(l),count=Object.values(l?.items||{}).filter(i=>i.closed).length;
   return `<div class="plan-row ${date===today()?'selected':''} ${p.rest?'rest-row':''} ${locked?'locked':''}" data-row="${d}"><button class="plan-open" data-goto="${date}"><span class="cal-date">${weekday(date)}<b>${shortDate(date)}</b></span><span><span class="row-title">${p.rest?'休息':p.title}</span>${!p.rest?`<small>${p.main.length}条线路 · ${p.duration.replace('约','').replace('，含休息','')}</small>`:''}</span><span class="row-status">${p.rest?'':`${holdsHTML(p,l)}${count===p.main.length?'<span class="sent">完攀</span>':''}`}</span></button><span class="drag-handle" ${locked?'aria-hidden="true"':'role="button" tabindex="0" aria-label="拖动调整顺序"'} data-handle="${d}">${locked?'':'⠿'}</span></div>`;}).join('')}</div>
