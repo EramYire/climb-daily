@@ -126,39 +126,45 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .tag{font-size:11px;color:var(--ink);border:1px solid var(--line-strong);border-radius:999px;padding:0 6px;line-height:1.6}
 .status{font-size:12px;white-space:nowrap;color:var(--muted)}
 .status.done,.status.more{color:var(--red);font-weight:600}.status.less{color:var(--ink);font-weight:600}
-.exercise-body{padding:0 18px 12px}
-.dose-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 8px}
-.dose{display:flex;align-items:flex-end;gap:2px;font-size:44px;line-height:1;white-space:nowrap}
-.dose>span:not(.dm){font-size:13px;color:var(--muted);margin:0 0 3px 4px}
-.dose em{font-size:20px;font-style:normal;color:var(--muted);margin:0 8px 6px}
-.rest-edit{display:inline-flex;align-items:center;border:1px solid var(--line-strong);border-radius:999px;flex-shrink:0}
-.rest-chip{font-size:12px;color:var(--ink);white-space:nowrap;padding:0 2px;font-variant-numeric:tabular-nums}
-.rest-step{width:34px;height:34px;min-height:0;padding:0;font-size:16px;color:var(--muted)}
+.exercise-body{padding:4px 20px 8px 20px}
+.is-open .ex-heading{padding-bottom:8px}
+.rx{padding:16px 0 24px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.dose{display:flex;align-items:flex-end;font-size:48px;line-height:1;white-space:nowrap}
+.dose>span:not(.dm){font-size:14px;color:var(--muted);margin:0 0 4px 6px}
+.dose em{font-size:20px;font-style:normal;color:var(--line-strong);margin:0 14px 8px}
+.rx-meta{display:flex;flex-wrap:wrap;gap:16px 40px;margin:24px 0 0}
+.rx-meta>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rx-meta dt{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.rx-meta dd{margin:0;display:flex;align-items:center;min-height:32px;font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.rest-edit dd{gap:2px;margin-left:-8px}
+.rest-chip{min-width:72px;text-align:center}
+.rest-step{width:32px;height:32px;min-height:0;padding:0;font-size:16px;font-weight:400;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line-strong)}
 .cue{font-size:14px;line-height:1.7;color:var(--muted);margin:6px 0 16px}
-.adjustment{font-size:13px;line-height:1.7;padding:9px 12px;border-radius:12px;border:1px dashed var(--line-strong);margin:8px 0}
-.increase{font-family:var(--mono);font-size:11px;color:var(--red);margin:6px 0}
+.adjustment{font-size:13px;line-height:1.7;padding:12px 16px;border-radius:12px;border:1px dashed var(--line-strong);margin:0 0 24px}
+.increase{font-family:var(--mono);font-size:12px;color:var(--red);margin:-12px 0 24px}
 
 /* 每组：圆形按键，完成后变红 */
-.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:10px;margin:0 0 16px}
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:12px;margin:0 0 24px}
 .set-btn{aspect-ratio:1;max-width:64px;width:100%;justify-self:center;min-height:0;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;border-radius:50%;background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
 .set-btn{font-family:var(--mono);font-size:18px;font-weight:600}
 .set-btn.checked{background:var(--red);color:#fff;box-shadow:none}
 .set-btn.pop{animation:pop .3s ease}
 
 /* 操作 */
-.card-actions{display:flex;flex-direction:column;gap:8px;margin:0 0 6px}
+.card-actions{display:flex;flex-direction:column;gap:8px;margin:0 0 8px}
 .card-actions .complete{width:100%;min-height:52px;font-size:15px;font-weight:600;color:var(--brand-ink);background:var(--brand)}
-.card-actions .complete:disabled{opacity:1;background:transparent;color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
-.interval-note{font-family:var(--mono);font-size:12px;color:var(--ink);margin:0 0 4px}
+.card-actions .complete.is-done{background:transparent;color:var(--red);box-shadow:inset 0 0 0 1.5px var(--red)}
+.instructions .cue-tip{font-size:14px;line-height:1.7;margin:10px 0 0;font-weight:600}
 .adjustment .text-button{font-size:13px;padding:0 4px;min-height:32px;color:var(--ink)}
 .adjust-row{display:flex;justify-content:center;gap:4px}
-.adjust-row button{min-height:40px;padding:6px 14px;font-size:13px;color:var(--muted)}
-.actual-record{font-size:12px;line-height:1.7;color:var(--muted);margin:-6px 0 12px;font-family:var(--mono);overflow-wrap:anywhere}
+.adjust-row{gap:24px}
+.adjust-row button{min-height:44px;padding:8px 4px;font-size:13px;color:var(--muted)}
+.actual-record{font-size:12px;line-height:1.7;color:var(--muted);margin:-12px 0 16px;font-family:var(--mono);overflow-wrap:anywhere}
 .actual-record>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;cursor:pointer;min-height:40px;font-weight:600}
 .actual-record summary span{font-size:12px;color:var(--muted);font-weight:400}
 .actual-record p{padding:0 0 8px;color:var(--muted);overflow-wrap:anywhere}
-.instructions{margin-top:6px;border-top:1px solid var(--line)}
-.instructions>summary{display:flex;align-items:center;gap:8px;min-height:46px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
+.instructions{margin-top:8px;border-top:1px solid var(--line)}
+.instructions>summary{display:flex;align-items:center;gap:8px;min-height:52px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
 .instructions>summary span{font-size:12px;color:var(--muted);font-weight:400;margin-left:auto}
 .instructions>summary:after{content:'⌄';color:var(--muted);transition:transform .2s}.instructions[open]>summary:after{transform:rotate(180deg)}
 .instructions .setup{background:var(--surface);padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.7;color:var(--muted)}
@@ -277,7 +283,6 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 .timer[data-kind="work"]:after{background:radial-gradient(circle,var(--red) 1.4px,transparent 1.7px) 0 50%/7px 4px repeat-x}
 .timer[data-kind="work"] small{color:#fff;font-weight:600}
 .timer button{flex-shrink:0;min-width:44px;min-height:44px;padding:6px 10px;white-space:nowrap;color:#fff;box-shadow:inset 0 0 0 1px #3a3a3a;font-size:13px;font-weight:600}
-.timer-adjust{display:flex;gap:4px}.timer-adjust button{min-width:46px;font-family:var(--mono);font-size:12px}
 #timer-mute[aria-pressed="true"]{color:#ffffff80}
 #timer-close{padding:6px;font-size:20px;box-shadow:none}
 .timer.finished{box-shadow:0 0 0 1.5px var(--red),0 10px 36px #0000004d}
@@ -301,7 +306,7 @@ dialog::backdrop{background:#0009;backdrop-filter:blur(4px)}
 #toast.visible{opacity:1;transform:translate(-50%,0)}
 
 @media(min-width:760px){#app{padding-top:28px}h1{font-size:34px}.dose{font-size:50px}}
-@media(max-width:374px){#app{padding-left:14px;padding-right:14px}h1{font-size:26px}.hero-count{font-size:34px}.dose{font-size:38px}.ex-heading{padding-left:13px;padding-right:12px;gap:10px}.exercise-body{padding:0 14px 12px}.sets{gap:7px}.date-pick b{font-size:23px}.stat b{font-size:26px}.welcome-date{font-size:54px}}
+@media(max-width:374px){#app{padding-left:14px;padding-right:14px}h1{font-size:26px}.hero-count{font-size:34px}.dose{font-size:38px}.ex-heading{padding-left:13px;padding-right:12px;gap:10px}.exercise-body{padding:4px 16px 8px}.sets{gap:8px}.rx-meta{gap:16px 24px}.date-pick b{font-size:23px}.stat b{font-size:26px}.welcome-date{font-size:54px}}
 @media(max-width:430px){.week-picker{grid-template-columns:repeat(4,1fr);gap:8px}.week-picker button{min-height:46px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
@@ -312,7 +317,7 @@ dialog::backdrop{background:#0009;backdrop-filter:blur(4px)}
   <span id="save-state" hidden></span>
   <main id="app" aria-label="每日训练"></main>
   <nav class="bottom-nav" aria-label="主导航"><button data-tab="today" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4c3-1 7 0 9 2s3 5 1 8-6 6-9 6-4-3-4-6 0-9 3-10z"/><circle cx="11" cy="11" r="1.6" fill="currentColor"/></svg>今日</button><button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21 10 9l4 6 2-3 4 9z"/><path d="M10 9V3l4 2-4 2"/></svg>计划总览</button><button data-tab="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>记录</button></nav>
-  <div id="timer" class="timer" hidden role="timer" aria-live="polite"><div class="timer-main"><small id="timer-label">组间休息</small><strong id="timer-clock">00:00</strong></div><div class="timer-adjust" id="timer-adjust"><button type="button" data-rest-adjust="-15" aria-label="休息减少15秒">−15</button><button type="button" data-rest-adjust="15" aria-label="休息增加15秒">+15</button></div><button id="timer-mute" type="button" aria-pressed="false">声音</button><button id="timer-pause" type="button">暂停</button><button id="timer-close" type="button" aria-label="关闭计时">×</button></div>
+  <div id="timer" class="timer" hidden role="timer" aria-live="polite"><div class="timer-main"><small id="timer-label">组间休息</small><strong id="timer-clock">00:00</strong></div><button id="timer-mute" type="button" aria-pressed="false">声音</button><button id="timer-pause" type="button">暂停</button><button id="timer-close" type="button" aria-label="关闭计时">×</button></div>
   <dialog id="record-dialog" aria-labelledby="dialog-title"><form id="record-form" novalidate><div class="dialog-top"><h2 id="dialog-title">记录实际完成</h2><button type="button" data-close aria-label="关闭">×</button></div><p id="dialog-target"></p><div id="dialog-sets"></div><button type="button" id="add-set" class="text-button">＋ 加一组</button><label class="field">备注（可不填）<textarea id="record-note" rows="2" maxlength="500" placeholder="例如：最后一组加了脚辅助"></textarea></label><p id="dialog-error" class="error" role="alert"></p><button class="primary full" type="submit">保存实际记录</button><small class="muted">空着的组按 0 记录。</small></form></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <noscript>请启用 JavaScript，才能显示每日训练并记录完成情况。</noscript>
@@ -325,10 +330,11 @@ const addDays=(s,n)=>new Date((dayNumber(s)+n)*DAY).toISOString().slice(0,10);
 function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 const weekNames=['建立节奏','稳定增加','巩固动作','减量恢复','重建训练量','继续积累','整合到攀岩','减量与回顾'];
 const profiles={
- hang:[ [3,4],[3,5],[3,6],[2,4],[4,5],[4,6],[4,6],[2,4] ],
+ hang:[ [5,5],[5,5],[5,5],[3,5],[5,5],[5,5],[5,5],[3,5] ],
  dip:[ [3,4],[3,5],[3,6],[2,4],[4,4],[4,5],[4,6],[2,4] ],
  pull:[ [3,3],[3,3],[3,4],[2,3],[3,4],[3,4],[3,4],[2,3] ],
- deadbug:[ [3,6],[3,7],[3,8],[2,6],[3,8],[3,9],[3,10],[2,6] ],
+ hollow:[ [3,20],[3,22],[3,25],[2,20],[3,25],[3,28],[3,30],[2,20] ],
+ wrist:[ [2,10],[2,10],[2,12],[1,10],[2,12],[2,12],[2,12],[1,10] ],
  external:[ [2,12],[2,13],[2,14],[1,12],[2,13],[2,14],[2,15],[1,12] ],
  sideplank:[ [2,20],[2,25],[2,30],[1,20],[2,25],[2,30],[2,35],[1,20] ],
  facepull:[ [2,12],[2,14],[2,15],[1,12],[2,14],[2,15],[2,16],[1,12] ],
@@ -343,7 +349,8 @@ const exercises={
  hang:{name:'25 mm 双手悬挂',unit:'次',rest:120,tag:'指力',interval:{work:7,off:3},setup:'7/3 间歇悬挂 · 四指开放握 · 可脚辅助',cue:'每次都挂稳，松手时脚先踩稳；组间完全放松。',steps:['双手四指放在25 mm边沿，自然开放式握法，不用两指。','点一组开始：倒数3秒后挂7秒、松手3秒，跟着提示音重复到本组次数。','保留足够的脚部辅助，最后一次仍能控制。手指疼痛或握不住就停。'],query:'攀岩 指力板 7/3 间歇悬挂 repeaters 脚辅助',demo:'hang'},
  dip:{name:'脚辅助双杠臂屈伸',unit:'次',rest:120,tag:'推力',setup:'双脚分担重量 · 下降约3秒',cue:'用脚帮到能稳稳下降、顺畅推起，不追求深度。',steps:['使用脚能踩稳的双杠或稳定辅助台，双手撑稳，双脚分担足够重量。','慢慢屈肘下降约3秒，只到肩膀舒适且能控制的位置，不强行下探。','推起时让双脚一起帮忙，直到手肘自然伸直。8周内保持相似辅助方式，便于比较。'],query:'双杠臂屈伸 脚辅助 初学者 动作 教学',demo:'dip'},
  pull:{name:'严格引体向上',unit:'次',rest:120,tag:'拉力',setup:'不摆荡 · 不蹬腿 · 保留余力',cue:'拉起和下放都可控，最后一组也不硬拉。',steps:['双手舒服握距抓杠，肩膀无痛，身体停止摆动后开始。','肘部向下拉，颈部保持自然，慢慢放回。','若做不到本组次数，使用弹力带辅助并记录；动作失控就结束该组。'],query:'严格 引体向上 标准动作 教学',demo:'pull'},
- deadbug:{name:'死虫',unit:'次',side:true,rest:45,tag:'核心',setup:'每侧各做 · 对侧手脚伸远',cue:'腰背轻贴地面，慢慢伸，不憋气。',steps:['仰卧，髋和膝约90度，双手举向天花板，腰背轻贴地。','呼气时缓慢伸远一侧手和对侧腿，然后返回；换另一边。','每侧各完成所列次数。腰背拱起时缩短手脚伸出的距离。'],query:'死虫 Dead Bug 标准动作 腰背 教学',demo:'deadbug'},
+ hollow:{name:'空心体支撑',unit:'秒',rest:60,timed:{},tag:'核心',setup:'仰卧 · 腰贴地 · 手脚伸直离地',cue:'下背始终贴地，肋骨往下收；腰一离地就把腿抬高或屈膝。',steps:['仰卧，收紧腹部把下背压向地面，双臂举过头，双腿并拢伸直。','同时抬起肩胛和双脚离地约15–30厘米，身体呈浅浅的香蕉形，保持自然呼吸。','做不到就屈膝或把腿抬高；保持到计划秒数后慢慢放下。'],query:'空心体支撑 hollow body hold 教程',demo:'hollow'},
+ wrist:{name:'手腕四方向',unit:'次',rest:60,tag:'手腕',setup:'轻哑铃或装水瓶 · 前臂架在大腿上 · 每组含4个方向',cue:'慢起慢落，保留2–3次余力；手腕有刺痛就减重或停。',steps:['屈曲：前臂架在大腿上掌心朝上，只动手腕把重物向上卷起，再慢慢放下。','伸展：掌心朝下，用手背方向抬起重物，再慢放；重量比屈曲更轻。','旋前与旋后：握住重物一端（像握锤子），前臂不动，慢慢把手掌向下、向上转。每个方向做计划次数后换下一个方向，左右手各做。'],query:'攀岩 手腕训练 哑铃 屈伸 旋前 旋后',demo:'wrist'},
  external:{name:'弹力带肩外旋',unit:'次',side:true,rest:45,tag:'肩部',setup:'轻阻力 · 肘屈90度贴身',cue:'只转前臂，不转身体，不耸肩。',steps:['侧对牢固固定点，使用轻阻力弹力带，手肘屈90度贴身体。','前臂从腹前缓慢向外打开，手肘位置保持不动。','缓慢回位，每侧各完成所列次数。轻阻力优先，不能用带上的公斤数当统一标准。'],query:'弹力带 肩外旋 肘贴身体 康复 教学',demo:'external'},
  sideplank:{name:'屈膝侧桥',unit:'秒',side:true,rest:45,timed:{switch:5},tag:'核心',setup:'左右各做 · 前臂与膝支撑',cue:'肩、髋、膝大致成线，髋部不下沉。',steps:['侧卧，肘部在肩膀下方，膝盖弯曲，前臂和下侧膝支撑身体。','抬髋，让肩、髋、膝大致成一直线，保持自然呼吸。','每侧分别保持所列秒数。肩膀不舒服就停止该动作。'],query:'屈膝 侧桥 侧平板支撑 教学',demo:'sideplank'},
  facepull:{name:'轻弹力带面拉',unit:'次',rest:45,tag:'肩部',setup:'固定点与脸同高 · 轻阻力',cue:'拉向眉毛两侧，身体不后仰，肩膀不耸起。',steps:['检查固定点和带子，把带子固定在脸部高度。','双手拉向鼻子或眉毛两侧，肘部打开，动作保持轻松。','短暂停住后缓慢还原，身体不后仰借力。'],query:'弹力带 面拉 正确动作 教学',demo:'facepull'},
@@ -356,7 +363,7 @@ const exercises={
 };
 const warmStrength=[
  ['全身升温','快走或开合步','2分钟','身体微热即可。'],
- ['手腕与手指','握拳张手、手腕绕环','各10次','只在舒适范围内活动，不硬压手腕。'],
+ ['手腕与手指','握拳张手、手腕绕环；橡皮筋撑开手指','各10次；伸指2组×15次','只在舒适范围内活动，不硬压手腕。伸指平衡指力训练，慢慢张开再收回。'],
  ['肩胛与肩部','墙面肩胛俯卧撑1组×8次；轻弹力带外旋1组×10次/侧','按列出的组次','肩胛俯卧撑全程肘伸直，轻轻推开墙面再回位。'],
  ['悬挂递进','38/42mm脚辅助2组×8秒；30mm脚辅助1组×7秒','组间休60秒','逐步减少脚部支撑，不提前练到疲劳。'],
  ['双杠预备','脚辅助浅幅双杠','1组×4次','更多脚辅助，只检查动作轨迹。']
@@ -368,7 +375,7 @@ const warmClimb=[
  ['逐渐加难','轻松的V1–V2','2条','条间休息1–2分钟。'],
  ['专项准备','低高度大手点的小幅动态','2次','动作轻松，先熟悉节奏。']
 ];
-const themes={1:['指力与推力','约50–60分钟','家里＋小区双杠/单杠','少量扎实的悬挂，再练可控的推起。'],3:['脚法与动态','约60分钟','攀岩馆','先把脚踩准，再练蹬腿带髋的节奏。'],4:['核心与肩部','约15分钟','家里','轻量练稳身体，给周六保留体力。'],5:['攀岩综合日','约90–120分钟，含休息','攀岩馆','增加工作日攀岩后，周六先缩短到约2小时，以动作质量为先。']};
+const themes={1:['指力与推力','约50–60分钟','家里＋小区双杠/单杠','少量扎实的悬挂，再练可控的推起。'],3:['浅浅爬的日子','约60分钟','攀岩馆','先把脚踩准，再练蹬腿带髋的节奏。'],4:['核心、手腕与肩部','约25分钟','家里','轻量练稳身体，给周六保留体力。'],5:['好好爬的日子','约90–120分钟，含休息','攀岩馆','增加工作日攀岩后，周六先缩短到约2小时，以动作质量为先。']};
 let weekOrders={};
 function setWeekOrders(o){weekOrders=o&&typeof o==='object'?o:{};}
 const isPermutation=o=>Array.isArray(o)&&o.length===7&&[...o].sort().join()==='0,1,2,3,4,5,6';
@@ -378,7 +385,7 @@ function dayPlan(date){
  const week=Math.floor(offset/7)+1,day=offset%7,custom=isPermutation(weekOrders[week]),dow=custom?weekOrders[week][day]:day;
  if(!themes[dow])return {date,week,dow,day,rest:true,title:custom?'休息日':dow===0?'恢复与准备':dow===2?'休息，让训练沉淀':'攀岩后的恢复',focus:weekNames[week-1],description:'今天没有力量或悬挂任务。正常活动，给手指、前臂和肩膀恢复时间。'};
  const [title,duration,place,description]=themes[dow];
- const ids=dow===1?['hang','dip','pull','deadbug','external']:dow===3?['footwork','dynamic','easy']:dow===4?['sideplank','facepull','birddog']:['dynamic','project','sloper','footwork'];
+ const ids=dow===1?['hang','dip','pull','hollow','external']:dow===3?['footwork','dynamic','easy']:dow===4?['wrist','sideplank','facepull','birddog']:['dynamic','project','sloper','footwork'];
  const main=ids.map(id=>{let [sets,reps]=profiles[id][week-1];if(dow===5&&id==='dynamic')sets=[4,4,5,3,4,5,5,3][week-1];if(dow===5&&id==='footwork')sets=[4,4,5,3,4,5,5,3][week-1];return {id,...exercises[id],sets,reps};});
  const warmup=dow===1?warmStrength:dow===4?[
  ['身体活动','原地走动、肩绕环','2分钟＋肩绕环10次','轻松活动，不追求出汗。'],
@@ -427,6 +434,8 @@ const FONT={'0':['01110','10001','10011','10101','11001','10001','01110'],'1':['
  // 点阵小图标
  up:['00100','01110','10101','00100','00100','00100','00100'],stairs:['0000011','0000011','0001100','0001100','0110000','0110000','0000000'],moon:['00111','01100','11000','11000','11000','01100','00111']};
 function dm(str,cls=''){let x=0,dots='';const chars=FONT[str]?[str]:[...String(str)];for(const ch of chars){const g=FONT[ch];if(!g){x+=2;continue;}g.forEach((row,y)=>[...row].forEach((b,i)=>{if(b==='1')dots+=`<circle cx="${x+i+.5}" cy="${y+.5}" r=".42"/>`;}));x+=g[0].length+1;}x=Math.max(1,x-1);return `<span class="dm ${cls}" role="img" aria-label="${escape(FONT[str]&&str.length>1?'':str)}"><svg viewBox="0 0 ${x} 7" width="${(x/7).toFixed(3)}em" height="1em" fill="currentColor" aria-hidden="true">${dots}</svg></span>`;}
+const retired={deadbug:'死虫'};
+const exName=id=>exercises[id]?.name||retired[id]||id;
 const fmtRest=s=>s>=60?(s%60?`${Math.floor(s/60)}分${s%60}秒`:`${s/60}分钟`):`${s}秒`;
 const hasLog=l=>!!l&&(Object.keys(l.items||{}).length>0||(l.warm||[]).some(Boolean)||!!l.note||l.rpe!=null||l.pain!=null);
 const statusText=(ex,rec)=>ex.paused?'暂停':rec?.closed&&rec.result!=='done'?resultNames[rec.result]:'';
@@ -446,18 +455,17 @@ function exerciseHTML(ex,index,p){
  const log=state.logs[selected]?.items?.[ex.id],closed=log?.closed,values=log?.values||[];
  const disabled=future()||ex.paused,opened=activeExercise===ex.id,next=currentExercises[index+1];
  const unit=`${ex.unit}${ex.side?'/侧':''}`,rest=restFor(ex),status=statusText(ex,log);
- const setLabel=i=>ex.interval?`第${i+1}组：${ex.reps}次 ${ex.interval.work}秒挂 ${ex.interval.off}秒松`:ex.timed?`第${i+1}组：每侧${ex.reps}秒`:`第${i+1}组：${ex.reps}${unit}`;
+ const setLabel=i=>ex.interval?`第${i+1}组：${ex.reps}次 ${ex.interval.work}秒挂 ${ex.interval.off}秒松`:ex.timed?`第${i+1}组：${ex.side?'每侧':''}${ex.reps}秒`:`第${i+1}组：${ex.reps}${unit}`;
  const undo=log?.stopped&&!future()?`<button class="text-button" data-action="unstop" data-id="${ex.id}">撤销停止</button>`:ex.pausedFrom&&!future()?`<button class="text-button" data-goto="${ex.pausedFrom}">去 ${shortDate(ex.pausedFrom)} 撤销</button>`:'';
  return `<article class="exercise ${closed?'completed':''} ${opened?'is-open':''}" data-ex="${ex.id}"><button class="ex-heading" data-focus="${ex.id}" aria-expanded="${opened}" aria-controls="exercise-body-${ex.id}"><span class="order">${closed?'✓':index+1}</span><span class="ex-title"><span class="exercise-name">${ex.name}</span><small><span class="tag">${ex.tag}</span><span class="ex-target">${targetText(ex)}</span></small></span>${status?`<span class="status ${ex.paused?'':log.result}">${status}</span>`:''}<span class="chevron" aria-hidden="true">${opened?'−':'＋'}</span></button>
  <div class="exercise-body" id="exercise-body-${ex.id}" ${opened?'':'hidden'}>
- <div class="dose-line"><div class="dose">${dm(ex.sets)}<span>组</span> <em>×</em> ${dm(ex.reps)}<span>${unit}</span></div><span class="rest-edit" data-rest-for="${ex.id}"><button type="button" class="rest-step" data-rest-step="-15" data-id="${ex.id}" aria-label="休息减少15秒">−</button><span class="rest-chip" aria-live="polite">休息 ${fmtRest(rest)}</span><button type="button" class="rest-step" data-rest-step="15" data-id="${ex.id}" aria-label="休息增加15秒">＋</button></span></div>
- ${ex.interval?`<p class="interval-note">每次：挂 ${ex.interval.work} 秒 · 松 ${ex.interval.off} 秒</p>`:''}
+ <div class="rx"><div class="dose">${dm(ex.sets)}<span>组</span><em>×</em>${dm(ex.reps)}<span>${unit}</span></div>
+ <dl class="rx-meta">${ex.interval?`<div><dt>每次</dt><dd>挂 ${ex.interval.work} 秒，松 ${ex.interval.off} 秒</dd></div>`:ex.timed&&ex.side?`<div><dt>换边</dt><dd>${ex.timed.switch||5} 秒</dd></div>`:''}<div class="rest-edit" data-rest-for="${ex.id}"><dt>组间休息</dt><dd><button type="button" class="rest-step" data-rest-step="-15" data-id="${ex.id}" aria-label="休息减少15秒">−</button><span class="rest-chip" aria-live="polite">${fmtRest(rest)}</span><button type="button" class="rest-step" data-rest-step="15" data-id="${ex.id}" aria-label="休息增加15秒">＋</button></dd></div></dl></div>
  ${ex.adjustment?`<p class="adjustment">${ex.adjustment}${undo?` ${undo}`:''}</p>`:amountChange(ex,p)?`<p class="increase">${amountChange(ex,p)}</p>`:''}
- <p class="cue">${ex.cue}</p>
  <div class="sets">${Array.from({length:ex.sets},(_,i)=>`<button class="set-btn ${values[i]!=null?'checked':''} ${justSet===`${ex.id}:${i}`?'pop':''}" data-set="${i}" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${values[i]!=null}" aria-label="${setLabel(i)}${values[i]!=null?'，已记录，点击撤销':(ex.interval||ex.timed)?'，点击开始计时':''}">${values[i]!=null?'✓':i+1}</button>`).join('')}</div>
  ${closed&&log.result!=='done'?`<p class="actual-record">实际 ${values.map(v=>v??0).join(' / ')} ${unit}${log.note?` · ${escape(log.note)}`:''}</p>`:''}
- <div class="card-actions"><button class="complete" data-action="done" data-id="${ex.id}" ${disabled||(closed&&log.result==='done')?'disabled':''}>${closed&&log.result==='done'?'✓ 已完成':closed?'改为按计划完成':'✓ 全部完成'}</button><div class="adjust-row"><button data-action="adjust" data-id="${ex.id}" ${disabled?'disabled':''}>调整实际</button>${log?.stopped?'':`<button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适停止</button>`}</div></div>
- <details class="instructions" data-detail="${ex.id}"><summary>怎么做</summary><p class="setup">${ex.setup}</p><ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${ex.demo?`<div class="demo-stage" data-demo="${ex.demo}"><svg viewBox="0 0 300 155" role="img" aria-label="${ex.name}动作示意，不替代现场指导"></svg><div class="demo-control"><button type="button" data-play="${ex.demo}" aria-pressed="false">播放示意</button></div></div>`:''}<a class="video-link" target="_blank" rel="noopener noreferrer" href="https://search.bilibili.com/all?keyword=${encodeURIComponent(ex.query)}">B站视频搜索 ↗</a></details>
+ <div class="card-actions"><button class="complete ${closed&&log.result==='done'?'is-done':''}" data-action="done" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${!!(closed&&log.result==='done')}">${closed&&log.result==='done'?'✓ 本动作已完成 · 点击撤销':closed?'改为按计划完成':'✓ 本动作完成'}</button><div class="adjust-row"><button data-action="adjust" data-id="${ex.id}" ${disabled?'disabled':''}>调整实际</button>${log?.stopped?'':`<button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适停止</button>`}</div></div>
+ <details class="instructions" data-detail="${ex.id}"><summary>怎么做</summary><p class="setup">${ex.setup}</p><p class="cue-tip">${ex.cue}</p><ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${ex.demo?`<div class="demo-stage" data-demo="${ex.demo}"><svg viewBox="0 0 300 155" role="img" aria-label="${ex.name}动作示意，不替代现场指导"></svg><div class="demo-control"><button type="button" data-play="${ex.demo}" aria-pressed="false">播放示意</button></div></div>`:''}<a class="video-link" target="_blank" rel="noopener noreferrer" href="https://search.bilibili.com/all?keyword=${encodeURIComponent(ex.query)}">B站视频搜索 ↗</a></details>
  ${closed?`<div class="exercise-footer"><button class="next-action" ${next?`data-next="${next.id}"`:'data-finish-session'}>${next?'下一条线路 →':'登顶！记录感受 →'}</button></div>`:''}</div></article>`;
 }
 function renderToday(){
@@ -502,7 +510,7 @@ function renderHistory(){
  const days=Object.entries(state.logs).filter(([,l])=>Object.keys(l.items||{}).length||l.note).sort(([a],[b])=>b.localeCompare(a));
  const total=days.reduce((n,[,l])=>n+Object.values(l.items||{}).filter(i=>i.closed).length,0);
  const sets=days.reduce((n,[,l])=>n+Object.values(l.items||{}).reduce((m,i)=>m+i.values.filter(v=>v).length,0),0);
- return `<section class="hero"><div class="eyebrow">${demo?'体验记录':'你的攀爬日志'}</div><h1>爬过的，都算数。</h1></section><div class="stats"><div class="stat"><b>${dm(days.length)}</b><span>训练天数</span></div><div class="stat"><b>${dm(total)}</b><span>完成线路</span></div><div class="stat"><b>${dm(sets)}</b><span>点亮岩点</span></div></div><div class="history-actions"><button id="export-data">导出备份</button><button id="import-data">恢复备份</button><input type="file" id="import-file" accept="application/json,.json" hidden></div><p class="inline-note">记录只存在本机，换手机前请先导出备份。</p>${!days.length?`<div class="empty"><div class="rest-mark" aria-hidden="true">${dm('stairs')}</div>还没有爬过的线路。<br>训练当天点开动作，完成一组就点亮一个岩点。</div>`:days.map(([date,l])=>`<section class="history-item"><header><div><small>${prettyDate(date)} ${weekday(date)}</small><h3>${dayPlan(date)?.title||'训练'}</h3></div><button data-goto="${date}" class="text-button">查看 ›</button></header>${Object.keys(l.items||{}).length?`<div class="record-summary">${Object.entries(l.items||{}).map(([id,r])=>`<div class="record-line"><span class="mini-hold ${r.closed?'done':''}"></span><span class="name">${escape(exercises[id]?.name||id)} <span class="muted">${r.values.map(v=>v==null?'—':v).join(' / ')} ${escape(r.unit||'')}${r.stopped?' · 不适停止':''}</span></span><span class="status ${r.result||''}">${r.closed?resultNames[r.result]:'进行中'}</span></div>`).join('')}</div>`:''}${l.note?`<p>${escape(l.note)}</p>`:''}${l.rpe!=null||l.pain!=null?`<p>吃力程度 ${l.rpe??'未填'} · 疼痛 ${l.pain??'未填'}</p>`:''}</section>`).join('')}`;
+ return `<section class="hero"><div class="eyebrow">${demo?'体验记录':'你的攀爬日志'}</div><h1>爬过的，都算数。</h1></section><div class="stats"><div class="stat"><b>${dm(days.length)}</b><span>训练天数</span></div><div class="stat"><b>${dm(total)}</b><span>完成线路</span></div><div class="stat"><b>${dm(sets)}</b><span>点亮岩点</span></div></div><div class="history-actions"><button id="export-data">导出备份</button><button id="import-data">恢复备份</button><input type="file" id="import-file" accept="application/json,.json" hidden></div><p class="inline-note">记录只存在本机，换手机前请先导出备份。</p>${!days.length?`<div class="empty"><div class="rest-mark" aria-hidden="true">${dm('stairs')}</div>还没有爬过的线路。<br>训练当天点开动作，完成一组就点亮一个岩点。</div>`:days.map(([date,l])=>`<section class="history-item"><header><div><small>${prettyDate(date)} ${weekday(date)}</small><h3>${dayPlan(date)?.title||'训练'}</h3></div><button data-goto="${date}" class="text-button">查看 ›</button></header>${Object.keys(l.items||{}).length?`<div class="record-summary">${Object.entries(l.items||{}).map(([id,r])=>`<div class="record-line"><span class="mini-hold ${r.closed?'done':''}"></span><span class="name">${escape(exName(id))} <span class="muted">${r.values.map(v=>v==null?'—':v).join(' / ')} ${escape(r.unit||'')}${r.stopped?' · 不适停止':''}</span></span><span class="status ${r.result||''}">${r.closed?resultNames[r.result]:'进行中'}</span></div>`).join('')}</div>`:''}${l.note?`<p>${escape(l.note)}</p>`:''}${l.rpe!=null||l.pain!=null?`<p>吃力程度 ${l.rpe??'未填'} · 疼痛 ${l.pain??'未填'}</p>`:''}</section>`).join('')}`;
 }
 function render(){stopDemos();app.innerHTML=tab==='today'?renderToday():tab==='plan'?renderPlan():renderHistory();document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===tab);b.setAttribute('aria-current',b.dataset.tab===tab?'page':'false');});$('#save-state').textContent=!storageOK?'保存不可用':demo?'体验模式 · 独立记录':'记录保存在本机';drawAllDemos();}
 function goto(date){selected=date;activeExercise=null;tab='today';render();window.scrollTo({top:0,behavior:'instant'});}
@@ -510,28 +518,38 @@ function progressHTML(count,total){const items=state.logs[selected]?.items||{},a
 function rerenderCard(id){const ex=currentExercises.find(e=>e.id===id),old=app.querySelector(`[data-ex="${id}"]`);if(!ex||!old)return;stopDemos();const y=window.scrollY,open=old.querySelector('.instructions')?.open;old.outerHTML=exerciseHTML(ex,currentExercises.indexOf(ex),currentPlan());if(open)app.querySelector(`[data-ex="${id}"] .instructions`).open=true;drawAllDemos();const count=currentExercises.filter(e=>state.logs[selected]?.items?.[e.id]?.closed).length;const block=$('.progress-block');if(block){justTopped=count===currentExercises.length&&!block.querySelector('.route-top.done');block.innerHTML=progressHTML(count,currentExercises.length);justTopped=false;}const heroCount=$('.hero-count');if(heroCount)heroCount.innerHTML=countHTML(count,currentExercises.length);window.scrollTo(0,y);}
 // 计时：倒数 3·2·1 → 动作计时（悬挂 7/3 间歇、侧桥左右）→ 组间休息。每段开始和结束都有提示音。
 const restFor=ex=>state.rest?.[ex.id]??ex.rest;
-let timer=null,timerTick=0,lastClock='',audioCtx=null,muted=localStorage.getItem('climb-daily-mute')==='1';
-function beep(freq=880,ms=120,when=0){if(muted)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();const t=audioCtx.currentTime+when,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+ms/1000);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+ms/1000+.02);}catch{}}
-const cue={tick:()=>{beep(660,90);navigator.vibrate?.(40);},go:()=>{beep(1175,260);navigator.vibrate?.(120);},stop:()=>{beep(880,140);beep(587,220,.16);navigator.vibrate?.([80,60,80]);}};
+let timer=null,timerTick=0,lastClock='',audioCtx=null,wakeLock=null,muted=localStorage.getItem('climb-daily-mute')==='1';
+async function holdWake(){if(wakeLock||!('wakeLock' in navigator))return;try{wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null;});}catch{wakeLock=null;}}
+function releaseWake(){wakeLock?.release?.().catch(()=>{});wakeLock=null;}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='visible'||!timer||timer.doneAt)return;audioCtx?.resume?.();holdWake();catchUp();});
+function beep(freq=880,ms=120,when=0,{type='sine',to=null,vol=.35}={}){if(muted)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();const t=audioCtx.currentTime+when,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+ms/1000);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+ms/1000);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+ms/1000+.02);}catch{}}
+// 倒数：短「嘀」；开始：上扬三连音「嘀嘀嘟↑」；结束：下滑长音「嘟↓」；休息结束：两声高音「叮叮」
+const cue={
+ tick:()=>{beep(784,70,0,{type:'triangle',vol:.3});navigator.vibrate?.(30);},
+ go:()=>{beep(784,90,0,{type:'square',vol:.18});beep(988,90,.11,{type:'square',vol:.18});beep(1568,320,.22,{type:'square',vol:.2});navigator.vibrate?.([60,40,60,40,180]);},
+ stop:()=>{beep(880,520,0,{type:'sawtooth',to:330,vol:.18});navigator.vibrate?.(400);},
+ ready:()=>{beep(1760,160,0,{vol:.32});beep(1760,260,.24,{vol:.32});navigator.vibrate?.([120,120,120]);}};
 function buildSteps(ex){const steps=[{kind:'count',label:'准备',sec:3}];
  if(ex.interval)for(let r=0;r<ex.reps;r++){steps.push({kind:'work',label:`挂 · 第 ${r+1}/${ex.reps} 次`,sec:ex.interval.work});if(r<ex.reps-1)steps.push({kind:'off',label:'松手',sec:ex.interval.off});}
- else if(ex.timed){steps.push({kind:'work',label:'左侧保持',sec:ex.reps},{kind:'off',label:'换边',sec:ex.timed.switch},{kind:'work',label:'右侧保持',sec:ex.reps});}
+ else if(ex.timed&&ex.side){steps.push({kind:'work',label:'左侧保持',sec:ex.reps},{kind:'off',label:'换边',sec:ex.timed.switch||5},{kind:'work',label:'右侧保持',sec:ex.reps});}
+ else if(ex.timed)steps.push({kind:'work',label:'保持',sec:ex.reps});
  return steps;}
 function startTimer(ex,setIndex=null,mode='rest'){
  const steps=mode==='set'?buildSteps(ex):[];steps.push({kind:'rest',label:'组间休息',sec:restFor(ex)});
  timer={ex,setIndex,steps,i:0,paused:false,left:steps[0].sec*1000,deadline:Date.now()+steps[0].sec*1000,doneAt:0};
- audioCtx?.resume?.();if(mode==='set')cue.tick();showTimer();}
-function showTimer(){const el=$('#timer');el.hidden=false;el.classList.remove('finished');el.dataset.kind=timer.steps[timer.i].kind;$('#timer-pause').textContent='暂停';$('#timer-adjust').hidden=timer.steps[timer.i].kind!=='rest';lastClock='';updateTimer();}
+ audioCtx?.resume?.();holdWake();if(mode==='set')cue.tick();showTimer();}
+function showTimer(){const el=$('#timer');el.hidden=false;el.classList.remove('finished');el.dataset.kind=timer.steps[timer.i].kind;$('#timer-pause').textContent='暂停';lastClock='';updateTimer();}
 function nextStep(){const step=timer.steps[timer.i];
  if(step.kind==='work'&&timer.steps[timer.i+1]?.kind!=='work')cue.stop();
  timer.i++;
- if(timer.i>=timer.steps.length){timer.doneAt=Date.now();$('#timer').classList.add('finished');$('#timer-label').textContent='休息结束，开始下一组';$('#timer-pause').hidden=true;$('#timer-adjust').hidden=true;cue.go();return;}
+ if(timer.i>=timer.steps.length){timer.doneAt=Date.now();$('#timer').classList.add('finished');$('#timer-label').textContent='休息结束，开始下一组';$('#timer-pause').hidden=true;cue.ready();releaseWake();return;}
  const n=timer.steps[timer.i];
  if(n.kind==='rest'&&timer.setIndex!=null)completeTimedSet();
  if(n.kind==='work')cue.go();else if(n.kind==='off')cue.stop();
  timer.left=n.sec*1000;timer.deadline=Date.now()+timer.left;showTimer();}
 function completeTimedSet(){const {ex,setIndex}=timer;const log=setLog(ex);if(log.values[setIndex]==null){log.values[setIndex]=ex.reps;closeIfComplete(ex,log);save();justSet=`${ex.id}:${setIndex}`;rerenderCard(ex.id);justSet=null;}
  if(log.closed){timer.steps=timer.steps.slice(0,timer.i);timer.i=timer.steps.length-1;timer.left=0;}timer.setIndex=null;}
+function catchUp(){let guard=0;while(timer&&!timer.doneAt&&!timer.paused&&timer.deadline<=Date.now()&&guard++<200){const over=Date.now()-timer.deadline;const wasMuted=muted;muted=true;nextStep();muted=wasMuted;if(timer&&!timer.doneAt){timer.deadline-=over;timer.left=Math.max(0,timer.deadline-Date.now());}}lastClock='';}
 function updateTimer(){const el=$('#timer');if(el.hidden||!timer)return;
  if(timer.doneAt){if(Date.now()-timer.doneAt>15000)el.hidden=true;return;}
  if(!timer.paused)timer.left=Math.max(0,timer.deadline-Date.now());
@@ -544,13 +562,12 @@ function updateTimer(){const el=$('#timer');if(el.hidden||!timer)return;
  if(timer.left<=0&&!timer.paused){timerTick=0;nextStep();}}
 setInterval(updateTimer,100);
 $('#timer-pause').onclick=()=>{if(!timer)return;timer.paused=!timer.paused;if(!timer.paused)timer.deadline=Date.now()+timer.left;$('#timer-pause').textContent=timer.paused?'继续':'暂停';};
-$('#timer-close').onclick=()=>{$('#timer').hidden=true;timer=null;};
+$('#timer-close').onclick=()=>{$('#timer').hidden=true;timer=null;releaseWake();};
 $('#timer-mute').onclick=()=>{muted=!muted;localStorage.setItem('climb-daily-mute',muted?'1':'0');$('#timer-mute').setAttribute('aria-pressed',String(muted));$('#timer-mute').textContent=muted?'静音':'声音';};
 $('#timer-mute').textContent=muted?'静音':'声音';$('#timer-mute').setAttribute('aria-pressed',String(muted));
 function changeRest(ex,d){const cur=restFor(ex),next=Math.max(15,Math.min(600,cur+d));if(next===cur)return;state.rest[ex.id]=next;save();
  if(timer&&timer.ex.id===ex.id){const rs=timer.steps.find(st=>st.kind==='rest');if(rs)rs.sec=next;if(timer.steps[timer.i].kind==='rest'&&!timer.doneAt){timer.left=Math.max(1000,timer.left+(next-cur)*1000);timer.deadline=Date.now()+timer.left;lastClock='';updateTimer();}}
- const chip=document.querySelector(`[data-rest-for="${ex.id}"] .rest-chip`);if(chip)chip.textContent=`休息 ${fmtRest(next)}`;}
-document.querySelectorAll('[data-rest-adjust]').forEach(b=>b.onclick=()=>{if(!timer||timer.steps[timer.i].kind!=='rest')return;changeRest(timer.ex,Number(b.dataset.restAdjust));});
+ const chip=document.querySelector(`[data-rest-for="${ex.id}"] .rest-chip`);if(chip)chip.textContent=fmtRest(next);}
 const closeIfComplete=(ex,log)=>{log.closed=Array.from({length:ex.sets},(_,n)=>log.values[n]!=null).every(Boolean);log.result=log.closed?resultFor(log.values,ex):null;};
 function showDialog(ex){dialogEx=ex;const log=state.logs[selected]?.items?.[ex.id];$('#dialog-title').textContent=`${ex.name} · 调整实际`;$('#dialog-target').textContent=`计划 ${targetText(ex)}，填写每组实际完成。`;$('#record-note').value=log?.note||'';$('#dialog-error').textContent='';$('#dialog-sets').innerHTML='';const count=Math.max(ex.sets,log?.values?.length||0);for(let i=0;i<count;i++)addDialogSet(log?.values?.[i]??ex.reps);$('#record-dialog').showModal();}
 function addDialogSet(value=''){const i=$('#dialog-sets').children.length;const row=document.createElement('div');row.className='dialog-set';row.innerHTML=`<label for="actual-${i}">第${i+1}组</label><input id="actual-${i}" type="number" inputmode="numeric" min="0" max="999" step="1" value="${escape(value)}" aria-label="第${i+1}组实际完成"><span>${dialogEx.unit}${dialogEx.side?'/侧':''}</span>${i>=dialogEx.sets?'<button type="button" data-remove-set aria-label="删除加做组">×</button>':''}`;$('#dialog-sets').append(row);}
@@ -580,7 +597,13 @@ document.addEventListener('click',e=>{
   if(ex.paused)return;
   if(t.dataset.action==='adjust'){showDialog(ex);return;}
   const log=setLog(ex);
-  if(t.dataset.action==='done'){Object.assign(log,{values:Array(ex.sets).fill(ex.reps),closed:true,result:'done',stopped:false});save();rerenderCard(ex.id);toast('已按计划记录完成');return;}
+  if(t.dataset.action==='done'){
+   if(log.closed&&log.result==='done'&&log.beforeDone){Object.assign(log,log.beforeDone);delete log.beforeDone;save();activeExercise=ex.id;render();toast('已撤销，恢复到点击前');return;}
+   log.beforeDone={values:[...log.values],closed:log.closed,result:log.result,note:log.note||''};
+   Object.assign(log,{values:Array(ex.sets).fill(ex.reps),closed:true,result:'done',stopped:false});save();
+   if(timer?.ex.id===ex.id){$('#timer').hidden=true;timer=null;releaseWake();}
+   const next=currentExercises.find(e=>e.id!==ex.id&&!state.logs[selected]?.items?.[e.id]?.closed&&!e.paused);activeExercise=next?.id??'';render();
+   if(next)document.querySelector(`[data-ex="${next.id}"]`)?.scrollIntoView({block:'start',behavior:'instant'});toast(next?`${ex.name}完成，下一个：${next.name}`:`${ex.name}完成`);return;}
   if(t.dataset.action==='stop'){
    log.beforeStop={values:[...log.values],closed:log.closed,result:log.result,note:log.note||''};log.values=log.values.map(v=>v??0);Object.assign(log,{closed:true,result:resultFor(log.values,ex),stopped:true,note:'因不适停止。'+(log.note||'')});if(timer?.ex.id===ex.id){$('#timer').hidden=true;timer=null;}save();render();toast('已停止，后续暂停此动作。点「撤销停止」可恢复');return;
   }
@@ -603,6 +626,7 @@ function cleanImport(input){
  const logs={};for(const [date,l] of Object.entries(input.logs)){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!dayPlan(date)||!l||typeof l!=='object')throw Error('包含无效日期');
   const items={};for(const [id,r] of Object.entries(l.items||{})){
+   if(retired[id]&&!exercises[id])continue;
    if(!exercises[id]||!Array.isArray(r.values)||r.values.length>30||r.values.some(v=>v!==null&&(!Number.isInteger(v)||v<0||v>999)))throw Error('动作记录格式不正确');
    const plan=dayPlan(date).main?.find(e=>e.id===id);if(!plan)throw Error('日期与动作不匹配');
    const target=r.target;if(!target||!Number.isInteger(target.sets)||target.sets<1||target.sets>30||!Number.isInteger(target.reps)||target.reps<1||target.reps>999)throw Error('目标组次不正确');
@@ -625,12 +649,16 @@ const poses={
  dip:{props:'rails',
   a:{hip:P(150,72),t:-84,n:-76,aN:{to:P(156,76),bend:1},aF:{to:P(153,76),bend:1},lN:{to:P(162,117),bend:-1},lF:{to:P(156,117),bend:-1}},
   b:{hip:P(152,86),t:-76,n:-66,aN:{to:P(156,76),bend:1},aF:{to:P(153,76),bend:1},lN:{to:P(162,117),bend:-1},lF:{to:P(156,117),bend:-1}}},
+ hollow:{props:'floor',
+  a:{hip:P(162,137),t:180,n:180,aN:{a:[180,180]},aF:{a:[178,178]},lN:{a:[0,0]},lF:{a:[2,2]}},
+  b:{hip:P(162,137),t:198,n:204,aN:{a:[204,202]},aF:{a:[206,204]},lN:{a:[-16,-16]},lF:{a:[-18,-18]}}},
+ wrist:{props:'wrist'},
  deadbug:{props:'floor',
   a:{hip:P(176,136),t:180,n:192,aN:{a:[-90,-90]},aF:{a:[-88,-88]},lN:{a:[-90,0]},lF:{a:[-88,2]}},
   b:{hip:P(176,136),t:180,n:192,aN:{a:[-90,-90]},aF:{a:[-172,-174]},lN:{a:[-8,-4]},lF:{a:[-88,2]}}},
  sideplank:{props:'floor',
-  a:{hip:P(141,138),t:218,n:210,aN:{a:[90,180],k:[1,.35]},aF:{rel:'hip',to:P(-6,-6),bend:1},lN:{a:[4,6],k:[1,.3]},lF:{a:[1,4],k:[1,.3]}},
-  b:{hip:P(145,126),t:201,n:196,aN:{a:[90,180],k:[1,.35]},aF:{rel:'hip',to:P(-6,-6),bend:1},lN:{a:[21,4],k:[1,.3]},lF:{a:[18,2],k:[1,.3]}}},
+  a:{hip:P(141.4,136),t:212.9,n:206,aN:{a:[90,180],k:[1,.35]},aF:{rel:'hip',to:P(-10,-12),bend:1},lN:{a:[7.7,-4],k:[1,.5]},lF:{a:[5,-8],k:[1,.5]}},
+  b:{hip:P(144.7,129.4),t:200.7,n:194,aN:{a:[90,180],k:[1,.35]},aF:{rel:'hip',to:P(-10,-12),bend:1},lN:{a:[20.7,-4],k:[1,.5]},lF:{a:[18,-8],k:[1,.5]}}},
  birddog:{props:'floor',
   a:{hip:P(104,107),t:-18,n:-22,aN:{to:P(138,137),bend:1},aF:{to:P(135,137),bend:1},lN:{a:[90,180]},lF:{a:[92,181]}},
   b:{hip:P(104,107),t:-18,n:-14,aN:{a:[-6,-6]},aF:{to:P(135,137),bend:1},lN:{a:[90,180]},lF:{a:[183,182]}}},
@@ -669,7 +697,9 @@ function propsSVG(kind,s){const floor='<path d="M30 141h240"/>';
  if(kind==='anchorFace')return `${floor}<path d="M262 141V20" stroke-width="2.5"/><circle cx="262" cy="40" r="3"/><path d="M262 40 L${s.aN[1][0].toFixed(1)} ${s.aN[1][1].toFixed(1)}" stroke-dasharray="4 3"/>`;
  if(kind==='anchorSide')return `${floor}<path d="M250 141V40" stroke-width="2.5"/><circle cx="250" cy="${s.aN[0][1].toFixed(1)}" r="3"/><path d="M250 ${s.aN[0][1].toFixed(1)} L${s.aN[1][0].toFixed(1)} ${s.aN[1][1].toFixed(1)}" stroke-dasharray="4 3"/>`;
  return '';}
-function poseSVG(key,t){const cfg=poses[key];if(!cfg)return '';const s=skeleton(cfg,t),far=cfg.front?1:.38;
+function wristSVG(t){const a=38-76*t,r=a*Math.PI/180,wx=176,wy=96,hx=wx+Math.cos(r)*24,hy=wy+Math.sin(r)*24;
+ return `<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" opacity=".3"><path d="M30 141h240"/><path d="M58 104h120v37"/><path d="M58 104v37"/></g><g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><path d="M86 97 L${wx} ${wy}"/></g><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><path d="M${wx} ${wy} L${hx.toFixed(1)} ${hy.toFixed(1)}"/></g><circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="10" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="3" fill="currentColor"/>`;}
+function poseSVG(key,t){const cfg=poses[key];if(!cfg)return '';if(cfg.props==='wrist')return wristSVG(t);const s=skeleton(cfg,t),far=cfg.front?1:.38;
  return `<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" opacity=".3">${propsSVG(cfg.props,s)}</g><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path opacity="${far}" d="${chain(s.hF,s.lF)} ${chain(s.sF,s.aF)}"/><path d="${seg(s.hip,s.sh)} ${seg(s.sh,s.head)}${cfg.front?` ${seg(s.sN,s.sF)} ${seg(s.hN,s.hF)}`:''}"/><path d="${chain(s.hN,s.lN)} ${chain(s.sN,s.aN)}"/><circle cx="${s.head[0].toFixed(1)}" cy="${s.head[1].toFixed(1)}" r="8" style="fill:var(--surface,#e8e8e4)"/></g>`;}
 function drawPose(stage,t=0){const svg=stage.tagName==='svg'?stage:stage.querySelector('svg');svg.innerHTML=poseSVG(stage.dataset.demo,t);}
 let animations=new Map();
