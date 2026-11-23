@@ -106,7 +106,8 @@ body:has(#timer:not([hidden])) #app{padding-bottom:210px}
 
 /* 主训练标题 */
 .section-title{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 10px;gap:10px}
-.section-title h2{font-size:15px}.section-title small{font-size:12px}
+.section-title h2{font-size:15px}
+.cool-title{margin-top:24px}.section-title small{font-size:12px}
 
 /* 动作卡片：无彩色，编号圆圈表示状态 */
 .exercise-list{display:flex;flex-direction:column;gap:8px}
@@ -368,6 +369,21 @@ const warmStrength=[
  ['悬挂递进','38/42mm脚辅助2组×8秒；30mm脚辅助1组×7秒','组间休60秒','逐步减少脚部支撑，不提前练到疲劳。'],
  ['双杠预备','脚辅助浅幅双杠','1组×4次','更多脚辅助，只检查动作轨迹。']
 ];
+// 训练后拉伸：只做到"有拉扯感、不疼"，每个动作保持30秒、深呼吸，不弹振。
+const S={
+ flexor:['前臂屈肌','跪姿或站姿，手掌按地或墙，指尖朝向自己，手臂伸直，身体慢慢后移','每侧30秒×2','前臂内侧有拉扯感即可，手指不硬压。'],
+ extensor:['前臂伸肌','手臂前伸，手背朝上，另一手把手掌轻轻往下、往回压','每侧30秒×2','前臂外侧有感觉，手肘保持伸直。'],
+ pec:['胸肌门框拉伸','前臂贴门框或墙边，手肘与肩同高，身体向前转开','每侧30秒×2','肩前侧有拉扯感，肩膀不耸、不痛。'],
+ lat:['背阔肌','双手扶高处（桌沿、岩点或门框），臀部后坐、胸口下沉','30秒×2','腋下到腰侧有拉扯感，肋骨往下收。'],
+ tricep:['肱三头肌','一手举过头屈肘，另一手轻推手肘向后','每侧30秒×2','上臂后侧有感觉，不憋气。'],
+ hipflex:['髋屈肌','弓步跪姿，后腿膝盖着地，收紧臀部把髋往前推','每侧30秒×2','大腿前侧到髋部有感觉，腰不塌。'],
+ adductor:['大腿内侧','宽距深蹲，手肘轻推膝盖向外，脚跟着地','30秒×2','保持背部挺直，有攀岩"转髋贴墙"的感觉。'],
+ glute:['臀部（4字拉伸）','仰卧，一脚踝搭在另一膝上，抱住下方大腿往胸口拉','每侧30秒×2','臀部外侧有感觉，头肩放松贴地。'],
+ pigeon:['鸽子式','前腿屈膝横放，后腿向后伸直，上身慢慢前倾','每侧30秒×2','膝盖有不适就改成4字拉伸。'],
+ thread:['穿针式','四点跪姿，一手从另一侧手臂下方穿过，肩膀贴地','每侧30秒×2','上背和肩胛之间有感觉，慢慢转。'],
+ child:['婴儿式','跪坐后坐，双臂向前伸远，额头放低','45秒×2','深呼吸，让下背和背阔放松。']
+};
+const cool={1:[S.flexor,S.extensor,S.pec,S.lat,S.tricep],3:[S.flexor,S.lat,S.hipflex,S.adductor,S.glute],4:[S.flexor,S.extensor,S.pec,S.thread,S.child],5:[S.flexor,S.lat,S.pec,S.pigeon,S.hipflex]};
 const warmClimb=[
  ['全身升温','快走或原地小跑','3分钟','身体微热。'],
  ['肩腕活动','肩绕环、手腕绕环、握拳张手','各10次','加墙面肩胛俯卧撑1组×8次，肘保持伸直。'],
@@ -391,7 +407,7 @@ function dayPlan(date){
  ['身体活动','原地走动、肩绕环','2分钟＋肩绕环10次','轻松活动，不追求出汗。'],
  ['轻量准备','墙面肩胛俯卧撑','1组×8次','手肘伸直，轻轻推开墙面再回位。']
  ]:warmClimb;
- return {date,week,dow,day,title,duration,place,description,focus:weekNames[week-1],main,warmup,rest:false,deload:week===4||week===8};
+ return {date,week,dow,day,cooldown:cool[dow]||[],title,duration,place,description,focus:weekNames[week-1],main,warmup,rest:false,deload:week===4||week===8};
 }
 function doseFor(ex,date,logs){
  const earlier=Object.entries(logs).filter(([d])=>d<date).sort(([a],[b])=>b.localeCompare(a));
@@ -437,7 +453,7 @@ function dm(str,cls=''){let x=0,dots='';const chars=FONT[str]?[str]:[...String(s
 const retired={deadbug:'死虫'};
 const exName=id=>exercises[id]?.name||retired[id]||id;
 const fmtRest=s=>s>=60?(s%60?`${Math.floor(s/60)}分${s%60}秒`:`${s/60}分钟`):`${s}秒`;
-const hasLog=l=>!!l&&(Object.keys(l.items||{}).length>0||(l.warm||[]).some(Boolean)||!!l.note||l.rpe!=null||l.pain!=null);
+const hasLog=l=>!!l&&(Object.keys(l.items||{}).length>0||(l.warm||[]).some(Boolean)||(l.cool||[]).some(Boolean)||!!l.note||l.rpe!=null||l.pain!=null);
 const statusText=(ex,rec)=>ex.paused?'暂停':rec?.closed&&rec.result!=='done'?resultNames[rec.result]:'';
 const countHTML=(n,total)=>`${dm(n,n===total&&total?'red':'')}<small>/ ${total}</small>`;
 const holdsHTML=(p,logs)=>p.main.map(e=>`<span class="mini-hold ${logs?.items?.[e.id]?.closed?'done':''}"></span>`).join('');
@@ -450,7 +466,9 @@ function mayLog(){if(future()){toast('这是未来计划，到了当天即可记
 function currentPlan(){return dayPlan(selected);}
 function amountChange(ex,p){if(p.week===1)return '';const prev=dayPlan(addDays(selected,-7))?.main?.find(e=>e.id===ex.id);if(!prev)return '';const d=ex.sets*ex.reps-prev.sets*prev.reps;if(d===0)return '';return d>0?`本周：${targetText(prev)} → ${targetText(ex)}`:`减量安排：${targetText(ex)}`;}
 function headerDate(){const p=dayPlan(selected),code=p?`W${String(p.week).padStart(2,'0')} · D${p.day+1}`:selected.slice(0,4),en=['SUN','MON','TUE','WED','THU','FRI','SAT'][new Date(selected+'T12:00:00Z').getUTCDay()];return `<div class="datebar"><label class="date-pick" aria-label="选择日期，当前${prettyDate(selected)} ${weekday(selected)}"><b>${selected.slice(5,7)}.${selected.slice(8,10)}</b><small>${en}</small>${selected===today()?'<em>TODAY</em>':''}<input class="date-input" type="date" id="date-picker" value="${selected}" aria-label="查看日期"></label><div class="date-actions"><button data-day="-1" aria-label="前一天">‹</button><span class="date-code">${code}</span><button data-day="1" aria-label="后一天">›</button></div></div>`;}
-function warmupHTML(p){const warm=state.logs[selected]?.warm||[];return `<details class="warmup"><summary><span class="warm-icon" aria-hidden="true">${dm('up')}</span><span class="warm-summary"><strong>热身</strong><small>${p.dow===1?'10–12分钟':p.dow===4?'3分钟':'20分钟'}</small></span><span class="warm-count">${warm.filter(Boolean).length}/${p.warmup.length}</span><span class="chevron" aria-hidden="true">⌄</span></summary>${p.warmup.map(([name,action,dose,cue],i)=>`<div class="warm-row"><input type="checkbox" id="warm-${i}" data-warm="${i}" ${warm[i]?'checked':''} ${future()?'disabled':''}><div class="warm-content"><label for="warm-${i}"><span class="warm-title">${action}</span><span class="warm-dose">${dose}</span></label><details class="warm-tip"><summary>动作要点</summary><p>${cue}</p></details></div></div>`).join('')}</details>`;}
+function checklistHTML({key,list,done,title,sub,icon}){return `<details class="warmup checklist" data-list="${key}"><summary><span class="warm-icon" aria-hidden="true">${dm(icon)}</span><span class="warm-summary"><strong>${title}</strong><small>${sub}</small></span><span class="warm-count">${done.filter(Boolean).length}/${list.length}</span><span class="chevron" aria-hidden="true">⌄</span></summary>${list.map(([name,action,dose,cue],i)=>`<div class="warm-row"><input type="checkbox" id="${key}-${i}" data-check="${key}" data-i="${i}" ${done[i]?'checked':''} ${future()?'disabled':''}><div class="warm-content"><label for="${key}-${i}"><span class="warm-title">${key==='cool'?name:action}</span><span class="warm-dose">${dose}</span></label><details class="warm-tip"><summary>${key==='cool'?'怎么做':'动作要点'}</summary><p>${key==='cool'?`${action}。${cue}`:cue}</p></details></div></div>`).join('')}</details>`;}
+function warmupHTML(p){return checklistHTML({key:'warm',list:p.warmup,done:state.logs[selected]?.warm||[],title:'热身',sub:p.dow===1?'10–12分钟':p.dow===4?'3分钟':'20分钟',icon:'up'});}
+function cooldownHTML(p){if(!p.cooldown?.length)return '';return `<div class="section-title cool-title"><h2>训练后拉伸</h2></div>${checklistHTML({key:'cool',list:p.cooldown,done:state.logs[selected]?.cool||[],title:'放松拉伸',sub:'约10分钟 · 有拉扯感、不疼',icon:'moon'})}`;}
 function exerciseHTML(ex,index,p){
  const log=state.logs[selected]?.items?.[ex.id],closed=log?.closed,values=log?.values||[];
  const disabled=future()||ex.paused,opened=activeExercise===ex.id,next=currentExercises[index+1];
@@ -466,7 +484,7 @@ function exerciseHTML(ex,index,p){
  ${closed&&log.result!=='done'?`<p class="actual-record">实际 ${values.map(v=>v??0).join(' / ')} ${unit}${log.note?` · ${escape(log.note)}`:''}</p>`:''}
  <div class="card-actions"><button class="complete ${closed&&log.result==='done'?'is-done':''}" data-action="done" data-id="${ex.id}" ${disabled?'disabled':''} aria-pressed="${!!(closed&&log.result==='done')}">${closed&&log.result==='done'?'✓ 本动作已完成 · 点击撤销':closed?'改为按计划完成':'✓ 本动作完成'}</button><div class="adjust-row"><button data-action="adjust" data-id="${ex.id}" ${disabled?'disabled':''}>调整实际</button>${log?.stopped?'':`<button class="stop" data-action="stop" data-id="${ex.id}" ${disabled?'disabled':''}>不适停止</button>`}</div></div>
  <details class="instructions" data-detail="${ex.id}"><summary>怎么做</summary><p class="setup">${ex.setup}</p><p class="cue-tip">${ex.cue}</p><ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${ex.demo?`<div class="demo-stage" data-demo="${ex.demo}"><svg viewBox="0 0 300 155" role="img" aria-label="${ex.name}动作示意，不替代现场指导"></svg><div class="demo-control"><button type="button" data-play="${ex.demo}" aria-pressed="false">播放示意</button></div></div>`:''}<a class="video-link" target="_blank" rel="noopener noreferrer" href="https://search.bilibili.com/all?keyword=${encodeURIComponent(ex.query)}">B站视频搜索 ↗</a></details>
- ${closed?`<div class="exercise-footer"><button class="next-action" ${next?`data-next="${next.id}"`:'data-finish-session'}>${next?'下一条线路 →':'登顶！记录感受 →'}</button></div>`:''}</div></article>`;
+ ${closed?`<div class="exercise-footer"><button class="next-action" ${next?`data-next="${next.id}"`:'data-finish-session'}>${next?'下一条线路 →':'登顶！去拉伸 →'}</button></div>`:''}</div></article>`;
 }
 function renderToday(){
  const p=currentPlan();
@@ -483,6 +501,7 @@ function renderToday(){
  return `${headerDate()}${demo?'<div class="notice">试用模式 <a href="./index.html">退出</a></div>':''}${future()?'<div class="notice">计划预览 <button class="text-button" data-demo-link>试用打卡 →</button></div>':''}${!storageOK?'<div class="notice warning">保存不可用，请导出备份。</div>':''}
  <section class="hero workout-hero"><div class="eyebrow">第 ${p.week} 周 · ${p.focus}${p.deload?'<span class="phase">减量周</span>':''}</div><div class="hero-title-row"><h1>${p.title}</h1><span class="hero-count">${countHTML(closed,currentExercises.length)}</span></div><div class="meta"><span>${p.duration.replace('约','').replace('，含休息','')}</span><span>${p.place}</span></div><div class="progress-block">${progressHTML(closed,currentExercises.length)}</div></section>
  ${warmupHTML(p)}<div class="section-title"><h2>今日线路</h2></div><div class="exercise-list">${currentExercises.map((e,i)=>exerciseHTML(e,i,p)).join('')}</div>
+ ${cooldownHTML(p)}
  <details class="session-note" id="session-note"><summary><strong>训练感受</strong></summary><div class="two-fields"><label class="field">吃力程度（1–10）<input inputmode="numeric" type="number" min="1" max="10" step="1" data-session="rpe" value="${escape(log.rpe??'')}" placeholder="例如 7" ${future()?'disabled':''}></label><label class="field">疼痛（0–10）<input inputmode="numeric" type="number" min="0" max="10" step="1" data-session="pain" value="${escape(log.pain??'')}" placeholder="无痛填 0" ${future()?'disabled':''}></label></div><label class="field">备注<textarea rows="2" maxlength="500" data-session="note" placeholder="今天感觉怎么样？" ${future()?'disabled':''}>${escape(log.note||'')}</textarea></label></details>
  <details class="training-notes"><summary>进阶与恢复说明</summary><p>第4、8周减量。少做后暂不加量；多做不额外加量；不适就停。</p><p>${p.description}</p></details>`;
 }
@@ -581,7 +600,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.week){planWeek=Number(t.dataset.week);render();return;}
  if(t.hasAttribute('data-reset-order')){delete state.weekOrders[planWeek];setWeekOrders(state.weekOrders);save();render();toast('已恢复默认顺序');return;}
  if(t.dataset.focus||t.dataset.next){const id=t.dataset.focus||t.dataset.next;activeExercise=t.dataset.focus&&activeExercise===id?'':id;stopDemos();document.querySelectorAll('[data-ex]').forEach(card=>{const open=card.dataset.ex===activeExercise,ex=currentExercises.find(x=>x.id===card.dataset.ex),record=state.logs[selected]?.items?.[card.dataset.ex];card.classList.toggle('is-open',open);card.querySelector('.exercise-body').hidden=!open;card.querySelector('[data-focus]').setAttribute('aria-expanded',String(open));card.querySelector('.chevron').textContent=open?'−':'＋';});drawAllDemos();if(t.dataset.next)document.querySelector(`[data-ex="${id}"]`)?.scrollIntoView({block:'start',behavior:'instant'});return;}
- if(t.hasAttribute('data-finish-session')){const note=$('#session-note');if(note){note.open=true;note.scrollIntoView({block:'center',behavior:'instant'});note.querySelector('input')?.focus({preventScroll:true});}return;}
+ if(t.hasAttribute('data-finish-session')){const cool=$('[data-list="cool"]'),note=$('#session-note'),el=cool||note;if(el){el.open=true;el.scrollIntoView({block:'start',behavior:'instant'});}return;}
  if(t.dataset.switch){tab=t.dataset.switch;render();window.scrollTo(0,0);return;}
  if(t.dataset.goto){goto(t.dataset.goto);return;}
  if(t.dataset.day){goto(addDays(selected,Number(t.dataset.day)));return;}
@@ -615,7 +634,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('change',async e=>{
  const t=e.target;
  if(t.id==='date-picker'&&/^\d{4}-\d{2}-\d{2}$/.test(t.value)){goto(t.value);return;}
- if(t.hasAttribute('data-warm')){if(!mayLog())return;logDay().warm??=[];logDay().warm[Number(t.dataset.warm)]=t.checked;save();const warm=$('.warmup summary .warm-count');if(warm)warm.textContent=`${logDay().warm.filter(Boolean).length}/${currentPlan().warmup.length}`;return;}
+ if(t.dataset.check){if(!mayLog()){t.checked=!t.checked;return;}const key=t.dataset.check,list=key==='cool'?currentPlan().cooldown:currentPlan().warmup;logDay()[key]??=[];logDay()[key][Number(t.dataset.i)]=t.checked;save();const c=$(`[data-list="${key}"] .warm-count`);if(c)c.textContent=`${logDay()[key].filter(Boolean).length}/${list.length}`;return;}
  if(t.dataset.session){if(!mayLog())return;let val=t.value;if(t.dataset.session!=='note'){if(val==='')val=null;else{val=Number(val);const min=t.dataset.session==='rpe'?1:0;if(!Number.isInteger(val)||val<min||val>10){toast(`请填${min}–10之间的整数`);t.value=logDay()[t.dataset.session]??'';return;}}}logDay()[t.dataset.session]=val;save();return;}
  if(t.id==='import-file'&&t.files[0]){
   try{const file=t.files[0];if(file.size>2000000)throw Error('文件过大');const input=JSON.parse(await file.text());const clean=cleanImport(input);state.logs={...state.logs,...clean.logs};for(const [w,o] of Object.entries(input.weekOrders||{}))if(/^[1-8]$/.test(w)&&isPermutation(o))state.weekOrders[w]=o;for(const [id,v] of Object.entries(input.rest||{}))if(exercises[id]&&Number.isInteger(v)&&v>=15&&v<=600)state.rest[id]=v;setWeekOrders(state.weekOrders);save();render();toast('备份已恢复，同一天记录以备份为准。');}catch(err){toast('无法恢复：'+err.message);}
@@ -632,7 +651,7 @@ function cleanImport(input){
    const target=r.target;if(!target||!Number.isInteger(target.sets)||target.sets<1||target.sets>30||!Number.isInteger(target.reps)||target.reps<1||target.reps>999)throw Error('目标组次不正确');
    items[id]={values:r.values,target,unit:plan.unit,closed:r.closed===true,result:r.closed?resultFor(r.values,target):null,note:String(r.note||'').slice(0,500),stopped:r.stopped===true};
   }
-  logs[date]={items,warm:Array.isArray(l.warm)?l.warm.slice(0,5).map(Boolean):[],note:String(l.note||'').slice(0,500),rpe:Number.isInteger(l.rpe)&&l.rpe>=1&&l.rpe<=10?l.rpe:null,pain:Number.isInteger(l.pain)&&l.pain>=0&&l.pain<=10?l.pain:null};
+  logs[date]={items,warm:Array.isArray(l.warm)?l.warm.slice(0,5).map(Boolean):[],cool:Array.isArray(l.cool)?l.cool.slice(0,5).map(Boolean):[],note:String(l.note||'').slice(0,500),rpe:Number.isInteger(l.rpe)&&l.rpe>=1&&l.rpe<=10?l.rpe:null,pain:Number.isInteger(l.pain)&&l.pain>=0&&l.pain<=10?l.pain:null};
  }return {logs};
 }
 
